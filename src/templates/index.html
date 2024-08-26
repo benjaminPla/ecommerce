@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://unpkg.com/htmx.org@2.0.2"
+      integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ"
+      crossorigin="anonymous"
+    ></script>
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <h1>{{ title }}</h1>
+    <p>{{ content }}</p>
+
+    <button
+      hx-post="/count"
+      hx-target="#count"
+      hx-swap="innerHTML"
+      hx-trigger="click"
+    >
+      Click me!
+    </button>
+    <p id="count">Count: {{ count }}</p>
+  </body>
+</html>
