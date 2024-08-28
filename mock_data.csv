@@ -1,0 +1,101 @@
+id,name,description,price,stock_quantity,category,image_url
+1,verykool SL5000 Quantum,"Posterior subluxation of right sternoclavicular joint, initial encounter",$2.79,32,Drywall & Acoustical (FED),https://picsum.photos/200/300
+2,Amoi A310,Fracture of unspecified phalanx of left little finger,$7.56,43,Structural & Misc Steel Erection,https://picsum.photos/200/300
+3,Infinix Hot 10,"Laceration with foreign body of right buttock, subsequent encounter",$2.59,11,Masonry & Precast,https://picsum.photos/200/300
+4,Huawei U121,Rupture of cardiac wall without hemopericardium as current complication following acute myocardial infarction,$6.43,27,Marlite Panels (FED),https://picsum.photos/200/300
+5,Realme XT 730G,"Injury of acoustic nerve, left side",$1.23,49,Prefabricated Aluminum Metal Canopies,https://picsum.photos/200/300
+6,Samsung E2550 Monte Slider,"Sedative, hypnotic or anxiolytic use, unspecified with intoxication delirium",$7.96,41,Wall Protection,https://picsum.photos/200/300
+7,Siemens Xelibri 6,"Strain of flexor muscle, fascia and tendon of left ring finger at wrist and hand level, sequela",$8.14,35,Rebar & Wire Mesh Install,https://picsum.photos/200/300
+8,Sony SmartWatch 3 SWR50,Corrosions involving 70-79% of body surface with 60-69% third degree corrosion,$3.71,35,Fire Protection,https://picsum.photos/200/300
+9,LG Optimus Sol E730,"Drowning and submersion due to being washed overboard from merchant ship, sequela",$1.27,3,HVAC,https://picsum.photos/200/300
+10,vivo Z3x,Insect bite (nonvenomous) of right eyelid and periocular area,$0.79,50,Prefabricated Aluminum Metal Canopies,https://picsum.photos/200/300
+11,Eten G500,"Sprain of metatarsophalangeal joint of left great toe, sequela",$1.61,34,Casework,https://picsum.photos/200/300
+12,BLU Vivo XL4,"Unspecified fracture of shaft of unspecified fibula, initial encounter for open fracture type IIIA, IIIB, or IIIC",$7.18,31,Hard Tile & Stone,https://picsum.photos/200/300
+13,HTC Windows Phone 8X,"Legal intervention involving other firearm discharge, law enforcement official injured, initial encounter",$4.63,39,Drywall & Acoustical (FED),https://picsum.photos/200/300
+14,Celkon C201,Unsatisfactory cytologic smear of vagina,$9.33,36,Ornamental Railings,https://picsum.photos/200/300
+15,Qtek 2020i,Other specified degenerative diseases of nervous system,$8.83,42,Overhead Doors,https://picsum.photos/200/300
+16,ZTE Axon 10s Pro 5G,"Nondisplaced fracture of body of right calcaneus, sequela",$7.48,14,Wall Protection,https://picsum.photos/200/300
+17,Amoi A10,"Underdosing of unspecified systemic antibiotic, sequela",$6.51,9,Landscaping & Irrigation,https://picsum.photos/200/300
+18,Nokia E65,"Puncture wound with foreign body of lower back and pelvis without penetration into retroperitoneum, initial encounter",$6.84,9,RF Shielding,https://picsum.photos/200/300
+19,Micromax X490,"Abrasion, right hip",$7.95,50,Roofing (Asphalt),https://picsum.photos/200/300
+20,LG B2050,"Wedge compression fracture of third thoracic vertebra, initial encounter for closed fracture",$4.65,4,EIFS,https://picsum.photos/200/300
+21,HP iPAQ hw6915,Unspecified mononeuropathy of left lower limb,$7.75,48,Marlite Panels (FED),https://picsum.photos/200/300
+22,Honor 3X G750,"Nondisplaced associated transverse-posterior fracture of right acetabulum, subsequent encounter for fracture with nonunion",$0.14,26,Termite Control,https://picsum.photos/200/300
+23,LG Volt,"Puncture wound without foreign body of unspecified external genital organs, male, subsequent encounter",$3.10,33,Masonry & Precast,https://picsum.photos/200/300
+24,Lava Pixel V1,"Nondisplaced fracture of posterior column [ilioischial] of unspecified acetabulum, initial encounter for open fracture",$7.70,22,Drywall & Acoustical (MOB),https://picsum.photos/200/300
+25,Samsung E251,"Injury of other specified nerves of thorax, sequela",$1.29,32,Plumbing & Medical Gas,https://picsum.photos/200/300
+26,Pantech Ease,"Injury of radial nerve at upper arm level, unspecified arm, initial encounter",$1.73,7,Termite Control,https://picsum.photos/200/300
+27,Samsung E400,"Broken internal joint prosthesis, unspecified site, initial encounter",$4.42,12,Framing (Steel),https://picsum.photos/200/300
+28,QMobile Noir Z12 Pro,"Burn of first degree of unspecified thumb (nail), sequela",$9.94,13,Overhead Doors,https://picsum.photos/200/300
+29,Samsung Galaxy Note5,"Abrasion of left ring finger, subsequent encounter",$4.37,1,Prefabricated Aluminum Metal Canopies,https://picsum.photos/200/300
+30,Sony Xperia Z3+ dual,"Other fracture of lower end of unspecified femur, subsequent encounter for open fracture type I or II with delayed healing",$5.16,5,Granite Surfaces,https://picsum.photos/200/300
+31,XOLO Era 1X,"Fall due to collision between other powered watercraft and other watercraft or other object, subsequent encounter",$4.99,1,HVAC,https://picsum.photos/200/300
+32,LG SU920,"Unspecified fracture of lower end of right ulna, sequela",$7.60,46,Framing (Wood),https://picsum.photos/200/300
+33,Asus P320,"Chorioamnionitis, second trimester, other fetus",$8.81,42,Sitework & Site Utilities,https://picsum.photos/200/300
+34,Wiko Sunset2,Cerebral infarction due to thrombosis of cerebellar artery,$2.94,14,Landscaping & Irrigation,https://picsum.photos/200/300
+35,LG U8290,"Posterior displaced Type II dens fracture, subsequent encounter for fracture with routine healing",$1.97,10,Granite Surfaces,https://picsum.photos/200/300
+36,Lenovo S860,Malignant neoplasm of upper-outer quadrant of right male breast,$2.81,49,"Doors, Frames & Hardware",https://picsum.photos/200/300
+37,Spice QT-58,"Glaucoma secondary to drugs, left eye, severe stage",$8.67,41,Construction Clean and Final Clean,https://picsum.photos/200/300
+38,Realme Narzo 20,"Passenger in pick-up truck or van injured in collision with other motor vehicles in traffic accident, initial encounter",$6.56,6,Drywall & Acoustical (MOB),https://picsum.photos/200/300
+39,Huawei U8300,"Laceration of unspecified renal artery, subsequent encounter",$5.34,48,Site Furnishings,https://picsum.photos/200/300
+40,vivo X60 Pro+,"Displaced comminuted fracture of shaft of unspecified tibia, initial encounter for closed fracture",$6.36,13,Plumbing & Medical Gas,https://picsum.photos/200/300
+41,alcatel Pop 2 (5),Other fracture of third lumbar vertebra,$1.69,19,Retaining Wall and Brick Pavers,https://picsum.photos/200/300
+42,BLU Studio G4,"Poisoning by other synthetic narcotics, undetermined",$3.48,29,Ornamental Railings,https://picsum.photos/200/300
+43,Maxon MX-6899,"Pathological fracture in neoplastic disease, left hand, sequela",$6.73,50,Drywall & Acoustical (FED),https://picsum.photos/200/300
+44,Plum Caliber,Carcinoma in situ of endocervix,$8.98,29,Prefabricated Aluminum Metal Canopies,https://picsum.photos/200/300
+45,Motorola Moto M,"Calcific tendinitis, left forearm",$3.99,19,Ornamental Railings,https://picsum.photos/200/300
+46,Lava Iris Atom 2,"Contusion and laceration of left cerebrum with loss of consciousness of any duration with death due to other cause prior to regaining consciousness, initial encounter",$9.46,34,Asphalt Paving,https://picsum.photos/200/300
+47,Sony Xperia XZ2 Compact,Burns involving 90% or more of body surface,$6.06,6,Drywall & Acoustical (FED),https://picsum.photos/200/300
+48,alcatel 3x (2018),Acute bronchitis due to Mycoplasma pneumoniae,$9.01,32,Ornamental Railings,https://picsum.photos/200/300
+49,BLU Deejay Flip,"Other specified injury of other blood vessels at wrist and hand level of unspecified arm, subsequent encounter",$9.33,50,"Doors, Frames & Hardware",https://picsum.photos/200/300
+50,verykool i315,"Traumatic hemorrhage of cerebrum, unspecified, with loss of consciousness of 31 minutes to 59 minutes, subsequent encounter",$2.64,24,Painting & Vinyl Wall Covering,https://picsum.photos/200/300
+51,Samsung Galaxy Mega 2,Cerebral infarction due to thrombosis of carotid artery,$9.27,18,Fire Protection,https://picsum.photos/200/300
+52,Samsung T929 Memoir,"Bipolar disorder, in full remission, most recent episode manic",$3.46,30,EIFS,https://picsum.photos/200/300
+53,ZTE Light Tab 300,"Legal intervention involving unspecified blunt objects, bystander injured, subsequent encounter",$8.33,11,Overhead Doors,https://picsum.photos/200/300
+54,Lava A73,"Acquired clubfoot, left foot",$6.87,22,Framing (Steel),https://picsum.photos/200/300
+55,Infinix Smart HD 2021,Intraoperative hemorrhage and hematoma of a musculoskeletal structure complicating a procedure,$5.26,20,Roofing (Asphalt),https://picsum.photos/200/300
+56,Ulefone T2,"Other injury of muscle(s) and tendon(s) of anterior muscle group at lower leg level, unspecified leg, subsequent encounter",$8.93,21,Asphalt Paving,https://picsum.photos/200/300
+57,Samsung Galaxy E7,"Anaphylactic reaction due to fruits and vegetables, sequela",$9.89,4,Termite Control,https://picsum.photos/200/300
+58,Samsung Galaxy Proclaim S720C,"Torus fracture of lower end of right fibula, sequela",$8.70,32,Landscaping & Irrigation,https://picsum.photos/200/300
+59,Sony Xperia tipo,"Other assault by drowning and submersion, initial encounter",$0.79,1,"Doors, Frames & Hardware",https://picsum.photos/200/300
+60,Lenovo A5860,"Osteomyelitis, unspecified",$3.81,48,Exterior Signage,https://picsum.photos/200/300
+61,Philips X712,Cervical shortening,$4.95,27,Drilled Shafts,https://picsum.photos/200/300
+62,LG Optimus Big LU6800,NIHSS score 30-39,$3.52,0,Casework,https://picsum.photos/200/300
+63,Micromax Canvas Play 4G Q469,"Unspecified fracture of shaft of left fibula, initial encounter for closed fracture",$8.60,3,Drywall & Acoustical (FED),https://picsum.photos/200/300
+64,Bird V09,"Blister (nonthermal), right thigh",$0.65,23,Roofing (Asphalt),https://picsum.photos/200/300
+65,Nokia Asha 308,"Nondisplaced fracture of unspecified radial styloid process, subsequent encounter for open fracture type IIIA, IIIB, or IIIC with malunion",$4.12,7,Marlite Panels (FED),https://picsum.photos/200/300
+66,Philips 399,"Unspecified superficial injury of scalp, subsequent encounter",$8.72,20,Plumbing & Medical Gas,https://picsum.photos/200/300
+67,Nokia 9300i,Other congenital cauda equina malformations,$1.84,27,Termite Control,https://picsum.photos/200/300
+68,Sewon SG-2000,"Pathological fracture in other disease, right femur, subsequent encounter for fracture with malunion",$3.28,9,Overhead Doors,https://picsum.photos/200/300
+69,Siemens C28,"Displaced fracture of trapezium [larger multangular], left wrist, initial encounter for closed fracture",$1.24,41,Casework,https://picsum.photos/200/300
+70,Samsung Galaxy C5 Pro,"Sudden visual loss, bilateral",$0.21,13,Soft Flooring and Base,https://picsum.photos/200/300
+71,Samsung Galaxy Y Plus S5303,Neoplasm of unspecified behavior of brain,$3.97,17,Rebar & Wire Mesh Install,https://picsum.photos/200/300
+72,Samsung Galaxy J2 Pro (2018),Corrosions of other specified parts of eye and adnexa,$0.82,50,Termite Control,https://picsum.photos/200/300
+73,XOLO Q700,Fracture of third cervical vertebra,$4.14,6,Drilled Shafts,https://picsum.photos/200/300
+74,Huawei U8520 Duplex,"Injury of right internal carotid artery, intracranial portion, not elsewhere classified with loss of consciousness greater than 24 hours without return to pre-existing conscious level with patient surviving, sequela",$8.91,48,Marlite Panels (FED),https://picsum.photos/200/300
+75,Xiaomi Mi Note Plus,Choroidal detachment,$4.78,11,Waterproofing & Caulking,https://picsum.photos/200/300
+76,Meizu E2,Struck by baseball bat,$9.46,4,Plumbing & Medical Gas,https://picsum.photos/200/300
+77,Acer M900,"Burn of third degree of multiple sites of head, face, and neck, initial encounter",$5.79,12,Structural & Misc Steel Erection,https://picsum.photos/200/300
+78,Nokia 6130,"Nondisplaced fracture of proximal third of navicular [scaphoid] bone of right wrist, sequela",$5.40,20,Rebar & Wire Mesh Install,https://picsum.photos/200/300
+79,Samsung L770,"Collapsed vertebra, not elsewhere classified, sacral and sacrococcygeal region, subsequent encounter for fracture with routine healing",$0.28,46,Framing (Steel),https://picsum.photos/200/300
+80,verykool SL6010 Cyprus LTE,Other specified respiratory disorders,$4.62,33,Drilled Shafts,https://picsum.photos/200/300
+81,Philips M200,"Puncture wound without foreign body of unspecified hand, initial encounter",$6.22,0,Drywall & Acoustical (MOB),https://picsum.photos/200/300
+82,Samsung Galaxy On7,"Displaced supracondylar fracture without intracondylar extension of lower end of left femur, initial encounter for open fracture type I or II",$9.12,12,Electrical,https://picsum.photos/200/300
+83,Lava Iris 349S,Toxic effect of other ingested (parts of) plant(s),$7.41,41,Landscaping & Irrigation,https://picsum.photos/200/300
+84,QMobile M6 Lite,"Neoplasm of uncertain behavior of brain, unspecified",$0.68,36,Fire Protection,https://picsum.photos/200/300
+85,vivo Y95,Liver disorders in diseases classified elsewhere,$4.24,11,Granite Surfaces,https://picsum.photos/200/300
+86,Samsung Z650i,"Laceration of long flexor muscle, fascia and tendon of right thumb at wrist and hand level",$2.78,0,Roofing (Metal),https://picsum.photos/200/300
+87,LG Optimus 2X SU660,"Poisoning by glucocorticoids and synthetic analogues, accidental (unintentional), subsequent encounter",$4.17,40,Drilled Shafts,https://picsum.photos/200/300
+88,Nokia C2-00,Other specified diabetes mellitus with kidney complications,$3.00,31,Soft Flooring and Base,https://picsum.photos/200/300
+89,NEC e530,"Nondisplaced fracture of greater trochanter of right femur, subsequent encounter for closed fracture with malunion",$5.89,44,Sitework & Site Utilities,https://picsum.photos/200/300
+90,BLU J7L,Laceration with foreign body of unspecified part of neck,$8.87,38,Electrical,https://picsum.photos/200/300
+91,Wiko Lenny4,"Other fracture of shaft of unspecified humerus, subsequent encounter for fracture with routine healing",$9.54,17,Painting & Vinyl Wall Covering,https://picsum.photos/200/300
+92,Samsung Galaxy Ace Style LTE G357,"Legal intervention involving manhandling, suspect injured",$0.04,13,Fire Sprinkler System,https://picsum.photos/200/300
+93,Philips S880,"Terrorism involving other means, public safety official injured, sequela",$8.96,20,Electrical and Fire Alarm,https://picsum.photos/200/300
+94,Huawei Watch Magic,Benign neoplasm of left epididymis,$9.72,50,Fire Protection,https://picsum.photos/200/300
+95,Honor View 10,"Aneurysmal bone cyst, forearm",$4.07,47,Sitework & Site Utilities,https://picsum.photos/200/300
+96,BLU Tank Xtreme 2.4,"Unspecified fracture of head of left femur, initial encounter for open fracture type IIIA, IIIB, or IIIC",$3.01,5,Waterproofing & Caulking,https://picsum.photos/200/300
+97,Huawei MatePad Pro 10.8 (2019),"Other nondisplaced fracture of lower end of left humerus, initial encounter for open fracture",$7.18,50,HVAC,https://picsum.photos/200/300
+98,i-mate SP3i,"Localized vascularization of cornea, unspecified eye",$9.47,8,Plumbing & Medical Gas,https://picsum.photos/200/300
+99,alcatel OT-997,Malignant neuroendocrine tumors,$3.09,40,Elevator,https://picsum.photos/200/300
+100,Motorola Droid XTreme,Other abnormalities of heart beat,$3.30,33,Retaining Wall and Brick Pavers,https://picsum.photos/200/300
