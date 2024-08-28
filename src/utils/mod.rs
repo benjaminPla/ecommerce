@@ -1,5 +1,10 @@
+use bigdecimal::BigDecimal;
+use csv::ReaderBuilder;
 use sqlx::{postgres::PgPoolOptions, Pool, Postgres};
 use std::env;
+use std::error::Error;
+use std::fs::File;
+use std::str::FromStr;
 
 pub async fn create_database_pool() -> Result<Pool<Postgres>, sqlx::Error> {
     let database_url = env::var("DATABASE_URL").expect("Missing `DATABASE_URL` env variable");
@@ -12,7 +17,7 @@ pub async fn create_database_pool() -> Result<Pool<Postgres>, sqlx::Error> {
 
 pub async fn setup_database(pool: Pool<Postgres>) -> Result<(), sqlx::Error> {
     sqlx::query(
-        "CREATE TABLE products (
+        "CREATE TABLE IF NOT EXISTS products (
         category VARCHAR(50),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         description VARCHAR(500),
@@ -26,5 +31,34 @@ pub async fn setup_database(pool: Pool<Postgres>) -> Result<(), sqlx::Error> {
     )
     .execute(&pool)
     .await?;
+    Ok(())
+}
+
+pub async fn populate_database_with_mock_products(
+    pool: Pool<Postgres>,
+) -> Result<(), Box<dyn Error>> {
+    let file = File::open("src/mock_data/products.csv")?;
+    let mut rdr = ReaderBuilder::new().has_headers(true).from_reader(file);
+
+    for result in rdr.records() {
+        let record = result?;
+
+        let id: i32 = record[0].parse()?;
+        let name = &record[1];
+        let description = &record[2];
+        let price = BigDecimal::from_str(&record[3].trim_start_matches('$'))?;
+        let stock_quantity: i32 = record[4].parse()?;
+        let category = &record[5];
+        let image_url = &record[6];
+
+        sqlx::query!(
+            "INSERT INTO products (id, name, description, price, stock_quantity, category, image_url) 
+             VALUES ($1, $2, $3, $4, $5, $6, $7)
+             ON CONFLICT (id) DO NOTHING",
+            id, name, description, price, stock_quantity, category, image_url
+        )
+        .execute(&pool)
+        .await?;
+    }
     Ok(())
 }
