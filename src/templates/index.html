@@ -12,16 +12,10 @@
   </head>
   <body>
     <h1>{{ title }}</h1>
-    <p>{{ content }}</p>
-
-    <button
-      hx-post="/count"
-      hx-target="#count"
-      hx-swap="innerHTML"
-      hx-trigger="click"
-    >
-      Click me!
-    </button>
-    <p id="count">Count: {{ count }}</p>
+    <ul>
+        {% for product in products %}
+            <li>ID: {{ product.id }}, Name: {{ product.name }}, Price: {{ product.price }}</li>
+        {% endfor %}
+    </ul>
   </body>
 </html>

@@ -1,10 +1,8 @@
-use bigdecimal::BigDecimal;
 use csv::ReaderBuilder;
 use sqlx::{postgres::PgPoolOptions, Pool, Postgres};
 use std::env;
 use std::error::Error;
 use std::fs::File;
-use std::str::FromStr;
 
 pub async fn create_database_pool() -> Result<Pool<Postgres>, sqlx::Error> {
     let database_url = env::var("DATABASE_URL").expect("Missing `DATABASE_URL` env variable");
@@ -25,7 +23,7 @@ pub async fn setup_database(pool: Pool<Postgres>) -> Result<(), sqlx::Error> {
         image_url VARCHAR(255),
         is_active BOOLEAN DEFAULT TRUE,
         name VARCHAR(50) NOT NULL,
-        price NUMERIC(10, 2) NOT NULL,
+        price DOUBLE PRECISION NOT NULL,
         stock_quantity INT NOT NULL,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);",
     )
@@ -46,17 +44,25 @@ pub async fn populate_database_with_mock_products(
         let id: i32 = record[0].parse()?;
         let name = &record[1];
         let description = &record[2];
-        let price = BigDecimal::from_str(&record[3].trim_start_matches('$'))?;
+        let price: f64 = record[3].trim_start_matches('$').parse()?;
         let stock_quantity: i32 = record[4].parse()?;
         let category = &record[5];
         let image_url = &record[6];
+        println!("Inserting product: id={}, name={}, description={}, price={}, stock_quantity={}, category={}, image_url={}", 
+            id, name, description, price, stock_quantity, category, image_url);
 
-        sqlx::query!(
+        sqlx::query(
             "INSERT INTO products (id, name, description, price, stock_quantity, category, image_url) 
              VALUES ($1, $2, $3, $4, $5, $6, $7)
-             ON CONFLICT (id) DO NOTHING",
-            id, name, description, price, stock_quantity, category, image_url
+             ON CONFLICT (id) DO NOTHING"
         )
+        .bind(id)
+        .bind(name)
+        .bind(description)
+        .bind(price)
+        .bind(stock_quantity)
+        .bind(category)
+        .bind(image_url)
         .execute(&pool)
         .await?;
     }
