@@ -13,13 +13,18 @@
   </head>
   <body class="container">
     <h1>{{ title }}</h1>
-    <ul>
+    <div class="product-list">
       {% for product in products %}
-      <li>
-        ID: {{ product.id }}, Name: {{ product.name }}, Price: {{ product.price
-        }}
-      </li>
+      <div class="product-item">
+        <img src="{{ product.image_url }}" alt="{{ product.name }}" class="product-image"/>
+        <h2>{{ product.name }}</h2>
+        <p class="product-description">{{ product.description }}</p>
+        <p class="product-price">${{ product.price }}</p>
+        <p class="product-category">Category: {{ product.category }}</p>
+        <p class="product-stock">In Stock: {{ product.stock_quantity }}</p>
+        <button class="buy-button">Buy Now</button>
+      </div>
       {% endfor %}
-    </ul>
+    </div>
   </body>
 </html>

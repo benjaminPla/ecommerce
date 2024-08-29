@@ -1,19 +1,22 @@
 use actix_web::{web, HttpResponse, Responder};
 use futures::TryStreamExt;
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use sqlx::{Pool, Postgres, Row};
 use tera::{Context, Tera};
 
-#[derive(Debug, Deserialize, Serialize)]
-pub struct Product {
+#[derive(Serialize)]
+struct Product {
+    category: String,
+    description: String,
     id: i32,
+    image_url: String,
     name: String,
     price: f64,
-
+    stock_quantity: i32,
 }
 
 pub async fn home(pool: web::Data<Pool<Postgres>>, tmpl: web::Data<Tera>) -> impl Responder {
-    let mut rows = sqlx::query("SELECT id, name, price FROM products;").fetch(pool.get_ref());
+    let mut rows = sqlx::query("SELECT id, name, description, price, stock_quantity, category, image_url FROM products;").fetch(pool.get_ref());
     let mut products:Vec<Product> = Vec::new();
     while let Some(row) = rows
         .try_next()
@@ -29,10 +32,22 @@ pub async fn home(pool: web::Data<Pool<Postgres>>, tmpl: web::Data<Tera>) -> imp
         let name: String = row
             .try_get("name")
             .unwrap_or_default();
+        let description: String = row
+            .try_get("description")
+            .unwrap_or_default();
         let price: f64 = row
             .try_get("price")
             .unwrap_or_default();
-        let product = Product{id, name,price};
+        let stock_quantity: i32 = row
+            .try_get("stock_quantity")
+            .unwrap_or_default();
+        let category: String = row
+            .try_get("category")
+            .unwrap_or_default();
+        let image_url: String = row
+            .try_get("image_url")
+            .unwrap_or_default();
+        let product = Product{ category, description, id, image_url, name, price, stock_quantity };
         products.push(product);
     }
 
