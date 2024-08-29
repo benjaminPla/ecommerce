@@ -8,14 +8,18 @@
       integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ"
       crossorigin="anonymous"
     ></script>
+    <link rel="stylesheet" href="../styles/index.css" />
     <title>{{ title }}</title>
   </head>
-  <body>
+  <body class="container">
     <h1>{{ title }}</h1>
     <ul>
-        {% for product in products %}
-            <li>ID: {{ product.id }}, Name: {{ product.name }}, Price: {{ product.price }}</li>
-        {% endfor %}
+      {% for product in products %}
+      <li>
+        ID: {{ product.id }}, Name: {{ product.name }}, Price: {{ product.price
+        }}
+      </li>
+      {% endfor %}
     </ul>
   </body>
 </html>

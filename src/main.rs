@@ -2,6 +2,7 @@ mod controllers;
 mod utils;
 
 use actix_web::{web, App, HttpResponse, HttpServer};
+use actix_files::Files;
 use controllers::{home, not_found};
 use dotenv::dotenv;
 use sqlx::{Pool, Postgres};
@@ -19,12 +20,12 @@ async fn main() -> std::io::Result<()> {
     setup_database(pool.clone())
         .await
         .expect("Error setting up the database");
-    populate_database_with_mock_products(pool.clone())
-        .await
-        .expect("Error populating the database with products");
+    // populate_database_with_mock_products(pool.clone())
+        // .await
+        // .expect("Error populating the database with products");
 
     let pool_data = web::Data::new(pool);
-    let tera = Tera::new("src/templates/*").expect("Error initializing Tera");
+    let tera = Tera::new("src/html/*").expect("Error initializing Tera");
 
     HttpServer::new(move || {
         App::new()
@@ -35,6 +36,7 @@ async fn main() -> std::io::Result<()> {
                 "/status",
                 web::get().to(|| async { HttpResponse::Ok().body("ok") }),
             )
+            .service(Files::new("/styles", "src/styles").show_files_listing())
             .default_service(web::route().to(not_found))
     })
     .bind("127.0.0.1:8080")?
