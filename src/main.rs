@@ -1,9 +1,9 @@
 mod controllers;
 mod utils;
 
-use actix_web::{web, App, HttpResponse, HttpServer};
 use actix_files::Files;
-use controllers::{home, not_found};
+use actix_web::{web, App, HttpResponse, HttpServer};
+use controllers::{home, not_found, product_details};
 use dotenv::dotenv;
 use sqlx::{Pool, Postgres};
 use tera::Tera;
@@ -21,8 +21,8 @@ async fn main() -> std::io::Result<()> {
         .await
         .expect("Error setting up the database");
     // populate_database_with_mock_products(pool.clone())
-        // .await
-        // .expect("Error populating the database with products");
+    // .await
+    // .expect("Error populating the database with products");
 
     let pool_data = web::Data::new(pool);
     let tera = Tera::new("src/html/*").expect("Error initializing Tera");
@@ -36,6 +36,7 @@ async fn main() -> std::io::Result<()> {
                 "/status",
                 web::get().to(|| async { HttpResponse::Ok().body("ok") }),
             )
+            .route("/product/{id}", web::get().to(product_details))
             .service(Files::new("/styles", "src/styles").show_files_listing())
             .default_service(web::route().to(not_found))
     })

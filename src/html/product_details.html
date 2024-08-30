@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://unpkg.com/htmx.org@2.0.2"
+      integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="../styles/global.css" />
+    <link rel="stylesheet" href="../styles/index.css" />
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    <div class="product-card">
+      <div class="product-image-container">
+        <img
+          src="{{ product.image_url }}"
+          alt="{{ product.name }}"
+          class="product-image"
+        />
+      </div>
+      <div class="product-info">
+        <h2>{{ product.name }}</h2>
+        <p class="product-description">{{ product.description }}</p>
+        <p class="product-price">${{ product.price }}</p>
+        <p class="product-category">Category: {{ product.category }}</p>
+        <p class="product-stock">In Stock: {{ product.stock_quantity }}</p>
+        <button class="buy-button">Buy Now</button>
+      </div>
+    </div>
+  </body>
+</html>
