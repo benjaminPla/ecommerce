@@ -1,9 +1,10 @@
 .container {
   background-color: #f0f0f0;
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-evenly;
   min-height: 100vh;
-  padding: 0 50px;
-  place-items: center;
 }
 
 .product-list {
