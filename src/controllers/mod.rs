@@ -36,7 +36,7 @@ pub async fn home(pool: web::Data<Pool<Postgres>>, tmpl: web::Data<Tera>) -> imp
             .try_get("description")
             .unwrap_or_default();
         let price: f64 = row
-            .try_get("price")
+            .try_get::<f64,_>("price")
             .unwrap_or_default();
         let stock_quantity: i32 = row
             .try_get("stock_quantity")
