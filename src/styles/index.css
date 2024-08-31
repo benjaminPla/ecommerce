@@ -27,7 +27,7 @@
 }
 
 .product-description {
-  color: #555555;
+  color: #555;
   font-size: 0.9em;
 }
 
@@ -39,7 +39,7 @@
 
 .product-category,
 .product-stock {
-  color: #888888;
+  color: #888;
   font-size: 0.9em;
 }
 
@@ -47,7 +47,7 @@
   background-color: #e60023;
   border: none;
   border-radius: 5px;
-  color: #ffffff;
+  color: #fff;
   cursor: pointer;
   margin-top: 15px;
   padding: 10px 15px;
