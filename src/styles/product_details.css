@@ -81,22 +81,6 @@
   margin-top: 20px;
 }
 
-.buy-button {
-  background-color: var(--buy-button);
-  border: none;
-  border-radius: 5px;
-  color: var(--primary-text-color);
-  cursor: pointer;
-  display: block;
-  margin-top: 15px;
-  padding: 10px 15px;
-  width: 100%;
-}
-
-.buy-button:hover {
-  background-color: var(--buy-button-hover-color);
-}
-
 @media (max-width: 768px) {
   .product-card {
     flex-direction: column;
