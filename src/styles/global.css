@@ -3,7 +3,6 @@
   --background-color: #1a1a1a;
   --secondary-background-color: #2b2b2b;
   --card-background-color: #333333;
-  --header-footer-background-color: #0d0d0d;
 
   /* Text Colors */
   --primary-text-color: #e8e8e8;
@@ -13,7 +12,6 @@
   /* Accent Colors */
   --accent-color: #00ff6a;
   --link-color: #7ab7ff;
-  --button-color: #ffcc00;
   --border-color: #444444;
 
   /* State Colors */

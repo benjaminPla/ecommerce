@@ -17,6 +17,15 @@ struct Product {
     stock_quantity: i32,
 }
 
+#[derive(Serialize)]
+struct CartProduct {
+    id: i32,
+    name: String,
+    price: f64,
+    quantity: i32,
+    total_price: f64,
+}
+
 pub async fn home(pool: web::Data<Pool<Postgres>>, tmpl: web::Data<Tera>) -> impl Responder {
     let mut rows = sqlx::query(
         "SELECT id, name, description, price, stock_quantity, category, image_url FROM products;",
@@ -118,25 +127,63 @@ pub async fn product_details(
 
 pub async fn cart(
     pool: web::Data<Pool<Postgres>>,
-    tmlp: web::Data<Tera>,
+    tmpl: web::Data<Tera>,
     req: HttpRequest,
 ) -> impl Responder {
-    let mut cart_items = Vec::new();
+    let mut cart_items: HashMap<i32, i32> = HashMap::new();
 
-    if let Ok(cookies) = req.cookies() {
-        for cookie in cookies.clone().into_iter() {
-            if cookie.name().starts_with("cart_item_") {
-                cart_items.push(cookie.value().to_string());
+    if let Some(cookie) = req.cookie("cart") {
+        for item in cookie.value().split(',') {
+            if let Some((id_str, qty_str)) = item.split_once(':') {
+                if let (Ok(id), Ok(qty)) = (id_str.parse::<i32>(), qty_str.parse::<i32>()) {
+                    cart_items.insert(id, qty);
+                }
             }
         }
-    } else {
-        eprintln!("Failed to get cookies from request");
     }
 
-    if cart_items.is_empty() {
-        HttpResponse::Ok().body("No items in the cart")
+    let product_ids: Vec<i32> = cart_items.keys().cloned().collect();
+
+    let rows = if !product_ids.is_empty() {
+        sqlx::query!(
+            "SELECT id, name, price FROM products WHERE id = ANY($1)",
+            &product_ids
+        )
+        .fetch_all(pool.get_ref())
+        .await
+        .unwrap_or_default()
     } else {
-        HttpResponse::Ok().json(cart_items)
+        Vec::new()
+    };
+
+    let mut products: Vec<CartProduct> = Vec::new();
+    let mut total_amount = 0.0;
+
+    for row in rows {
+        if let Some(quantity) = cart_items.get(&row.id) {
+            let total_price = row.price * *quantity as f64;
+            products.push(CartProduct {
+                id: row.id,
+                name: row.name,
+                price: row.price,
+                quantity: *quantity,
+                total_price,
+            });
+            total_amount += total_price;
+        }
+    }
+
+    let mut context = Context::new();
+    context.insert("title", "Cart");
+    context.insert("products", &products);
+    context.insert("total_amount", &total_amount);
+
+    match tmpl.render("cart.html", &context) {
+        Ok(rendered) => HttpResponse::Ok().body(rendered),
+        Err(err) => {
+            eprintln!("Error rendering template: {:#?}", err);
+            HttpResponse::InternalServerError().body("Error rendering template")
+        }
     }
 }
 
