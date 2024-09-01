@@ -1,3 +1,43 @@
+:root {
+  /* Backgrounds */
+  --background-color: #1a1a1a;
+  --secondary-background-color: #2b2b2b;
+  --card-background-color: #333333;
+  --header-footer-background-color: #0d0d0d;
+
+  /* Text Colors */
+  --primary-text-color: #e8e8e8;
+  --secondary-text-color: #bfbfbf;
+  --muted-text-color: #7d7d7d;
+
+  /* Accent Colors */
+  --accent-color: #00ff6a;
+  --link-color: #7ab7ff;
+  --button-color: #ffcc00;
+  --border-color: #444444;
+
+  /* State Colors */
+  --error-color: #f93a37;
+  --warning-color: #ff8800;
+  --success-color: #00cc66;
+  --info-color: #0099ff;
+  --note-color: #ffff00;
+
+  /* Button */
+  --buy-button: #ef4444;
+  --add-button-color: #00cc66;
+
+  /* Hover Colors */
+  --link-hover-color: #5e83b3;
+  --buy-button-hover-color: #b91c1c;
+  --add-button-hover-color: #00994d;
+
+  /* Retro Console Specific Colors */
+  --console-green: #00ff33;
+  --console-amber: #ffbf00;
+  --console-cyan: #00ffff;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -24,12 +64,12 @@ li {
 
 body {
   align-items: center;
-  background-color: #f0f0f0;
+  background-color: var(--background-color);
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   gap: 20px;
   justify-content: space-evenly;
   min-height: 100vh;
-  padding-top: 50px;
+  padding: 100px;
 }

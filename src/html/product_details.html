@@ -10,11 +10,12 @@
     ></script>
     <link rel="stylesheet" href="../styles/global.css" />
     <link rel="stylesheet" href="../styles/navbar.css" />
-    <link rel="stylesheet" href="../styles/index.css" />
+    <link rel="stylesheet" href="../styles/product_details.css" />
     <title>{{ title }}</title>
   </head>
   <body>
     {% include "_navbar.html" %}
+
     <div class="product-card">
       <div class="product-image-container">
         <img
@@ -29,6 +30,7 @@
         <p class="product-price">${{ product.price }}</p>
         <p class="product-category">Category: {{ product.category }}</p>
         <p class="product-stock">In Stock: {{ product.stock_quantity }}</p>
+        <button class="add-button">Add to Cart</button>
         <button class="buy-button">Buy Now</button>
       </div>
     </div>

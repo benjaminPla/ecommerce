@@ -1,4 +1,5 @@
-use actix_web::{web, HttpResponse, Responder};
+use actix_web::cookie::CookieBuilder;
+use actix_web::{web, HttpRequest, HttpResponse, Responder};
 use futures::TryStreamExt;
 use serde::Serialize;
 use sqlx::{Pool, Postgres, Row};
@@ -102,7 +103,7 @@ pub async fn product_details(
     };
 
     let mut context = Context::new();
-    context.insert("title", &format!("{}",&product.name));
+    context.insert("title", &format!("{}", &product.name));
     context.insert("product", &product);
 
     match tmpl.render("product_details.html", &context) {
@@ -112,6 +113,56 @@ pub async fn product_details(
             HttpResponse::InternalServerError().body("Error rendering template")
         }
     }
+}
+
+pub async fn cart(
+    pool: web::Data<Pool<Postgres>>,
+    tmlp: web::Data<Tera>,
+    req: HttpRequest,
+) -> impl Responder {
+    let mut cart_items = Vec::new();
+
+    if let Ok(cookies) = req.cookies() {
+        for cookie in cookies.clone().into_iter() {
+            if cookie.name().starts_with("cart_item_") {
+                cart_items.push(cookie.value().to_string());
+            }
+        }
+    } else {
+        eprintln!("Failed to get cookies from request");
+    }
+
+    if cart_items.is_empty() {
+        HttpResponse::Ok().body("No items in the cart")
+    } else {
+        HttpResponse::Ok().json(cart_items)
+    }
+}
+
+pub async fn add_to_cart(path: web::Path<(i32,)>, req: HttpRequest) -> impl Responder {
+    let id = path.into_inner().0;
+    
+    let mut cart = Vec::new();
+
+    if let Some(cookie) = req.cookie("cart") {
+        cart = cookie
+            .value()
+            .split(',')
+            .filter_map(|str_value| str_value.parse::<i32>().ok())
+            .collect();
+    }
+
+    cart.push(id);
+
+    let cart_value = cart.into_iter().map(|i| i.to_string()).collect::<Vec<String>>().join(",");
+
+    let cookie = CookieBuilder::new("cart", cart_value)
+        .path("/")
+        .secure(true)
+        .http_only(true)
+        .finish();
+
+    HttpResponse::Ok().cookie(cookie).finish()
 }
 
 pub async fn not_found(tmpl: web::Data<Tera>) -> impl Responder {
