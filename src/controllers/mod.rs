@@ -1,5 +1,5 @@
-use actix_web::{web, HttpRequest, HttpResponse, Responder};
 use actix_web::cookie::{CookieBuilder, SameSite};
+use actix_web::{web, HttpRequest, HttpResponse, Responder};
 use futures::TryStreamExt;
 use serde::Serialize;
 use sqlx::{Pool, Postgres, Row};
@@ -130,59 +130,88 @@ pub async fn cart(
     tmpl: web::Data<Tera>,
     req: HttpRequest,
 ) -> impl Responder {
-    let mut cart_items: HashMap<i32, i32> = HashMap::new();
+    match req.cookie("cart") {
+        Some(cookie) => {
+            let mut cart_items: HashMap<i32, i32> = HashMap::new();
+            for product in cookie.value().split(',') {
+                match product.split_once(':') {
+                    Some((id_str, quantity_str)) => {
+                        let id = match id_str.parse::<i32>() {
+                            Ok(id) => id,
+                            Err(err) => {
+                                eprintln!("Error parsing product ID: {:#?}", err);
+                                return HttpResponse::InternalServerError().finish();
+                            }
+                        };
+                        let quantity = match quantity_str.parse::<i32>() {
+                            Ok(quantity) => quantity,
+                            Err(err) => {
+                                eprintln!("Error parsing product quantity: {:#?}", err);
+                                return HttpResponse::InternalServerError().finish();
+                            }
+                        };
+                        cart_items.insert(id, quantity);
+                    }
+                    None => {
+                        eprintln!("Error splitting product entry: {}", product);
+                        return HttpResponse::InternalServerError().finish();
+                    }
+                }
+            }
 
-    if let Some(cookie) = req.cookie("cart") {
-        for item in cookie.value().split(',') {
-            if let Some((id_str, qty_str)) = item.split_once(':') {
-                if let (Ok(id), Ok(qty)) = (id_str.parse::<i32>(), qty_str.parse::<i32>()) {
-                    cart_items.insert(id, qty);
+            let product_ids: Vec<i32> = cart_items.keys().cloned().collect();
+            let mut rows = sqlx::query("SELECT id, name, price FROM products WHERE id = ANY($1)")
+                .bind(&product_ids)
+                .fetch(pool.get_ref());
+
+            let mut products: Vec<CartProduct> = Vec::new();
+            let mut total_amount = 0.0;
+
+            while let Some(row) = rows.try_next().await.unwrap_or_else(|error| {
+                eprintln!("Database query error: {:#?}", error);
+                None
+            }) {
+                let id: i32 = row.try_get("id").unwrap_or_default();
+                let name: String = row.try_get("name").unwrap_or_default();
+                let price: f64 = row.try_get("price").unwrap_or_default();
+
+                if let Some(&quantity) = cart_items.get(&id) {
+                    let total_price = price * quantity as f64;
+                    products.push(CartProduct {
+                        id,
+                        name,
+                        price,
+                        quantity,
+                        total_price,
+                    });
+                    total_amount += total_price;
+                }
+            }
+
+            let mut context = Context::new();
+            context.insert("title", "Cart");
+            context.insert("products", &products);
+            context.insert("total_amount", &total_amount);
+
+            match tmpl.render("cart.html", &context) {
+                Ok(rendered) => HttpResponse::Ok().body(rendered),
+                Err(err) => {
+                    eprintln!("Error rendering cart template: {:#?}", err);
+                    HttpResponse::InternalServerError().body("Error rendering cart template")
                 }
             }
         }
-    }
+        None => {
+            let mut context = Context::new();
+            context.insert("title", "Cart");
 
-    let product_ids: Vec<i32> = cart_items.keys().cloned().collect();
-
-    let rows = if !product_ids.is_empty() {
-        sqlx::query!(
-            "SELECT id, name, price FROM products WHERE id = ANY($1)",
-            &product_ids
-        )
-        .fetch_all(pool.get_ref())
-        .await
-        .unwrap_or_default()
-    } else {
-        Vec::new()
-    };
-
-    let mut products: Vec<CartProduct> = Vec::new();
-    let mut total_amount = 0.0;
-
-    for row in rows {
-        if let Some(quantity) = cart_items.get(&row.id) {
-            let total_price = row.price * *quantity as f64;
-            products.push(CartProduct {
-                id: row.id,
-                name: row.name,
-                price: row.price,
-                quantity: *quantity,
-                total_price,
-            });
-            total_amount += total_price;
-        }
-    }
-
-    let mut context = Context::new();
-    context.insert("title", "Cart");
-    context.insert("products", &products);
-    context.insert("total_amount", &total_amount);
-
-    match tmpl.render("cart.html", &context) {
-        Ok(rendered) => HttpResponse::Ok().body(rendered),
-        Err(err) => {
-            eprintln!("Error rendering template: {:#?}", err);
-            HttpResponse::InternalServerError().body("Error rendering template")
+            match tmpl.render("empty_cart.html", &context) {
+                Ok(rendered) => HttpResponse::Ok().body(rendered),
+                Err(err) => {
+                    eprintln!("Error rendering empty cart template: {:#?}", err);
+                    HttpResponse::InternalServerError().body("Error rendering empty cart template")
+                }
+            }
         }
     }
 }
