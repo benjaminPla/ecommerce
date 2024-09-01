@@ -3,6 +3,7 @@ use actix_web::{web, HttpRequest, HttpResponse, Responder};
 use futures::TryStreamExt;
 use serde::Serialize;
 use sqlx::{Pool, Postgres, Row};
+use std::collections::HashMap;
 use tera::{Context, Tera};
 
 #[derive(Serialize)]
@@ -139,22 +140,39 @@ pub async fn cart(
     }
 }
 
-pub async fn add_to_cart(path: web::Path<(i32,)>, req: HttpRequest) -> impl Responder {
+pub async fn add_to_cart(
+    path: web::Path<(i32,)>,
+    req: HttpRequest,
+    form: web::Form<HashMap<String, String>>,
+) -> impl Responder {
     let id = path.into_inner().0;
-    
-    let mut cart = Vec::new();
+    let quantity: i32 = form
+        .get("quantity")
+        .and_then(|q| q.parse::<i32>().ok())
+        .map(|q| q.clamp(1, 100))
+        .unwrap_or(1);
+
+    let mut cart: HashMap<i32, i32> = HashMap::new();
 
     if let Some(cookie) = req.cookie("cart") {
-        cart = cookie
-            .value()
-            .split(',')
-            .filter_map(|str_value| str_value.parse::<i32>().ok())
-            .collect();
+        for item in cookie.value().split(',') {
+            if let Some((id_str, qty_str)) = item.split_once(':') {
+                if let (Ok(id), Ok(qty)) = (id_str.parse::<i32>(), qty_str.parse::<i32>()) {
+                    cart.insert(id, qty);
+                }
+            }
+        }
     }
 
-    cart.push(id);
+    cart.entry(id)
+        .and_modify(|q| *q = quantity)
+        .or_insert(quantity);
 
-    let cart_value = cart.into_iter().map(|i| i.to_string()).collect::<Vec<String>>().join(",");
+    let cart_value = cart
+        .into_iter()
+        .map(|(id, qty)| format!("{}:{}", id, qty))
+        .collect::<Vec<String>>()
+        .join(",");
 
     let cookie = CookieBuilder::new("cart", cart_value)
         .path("/")
