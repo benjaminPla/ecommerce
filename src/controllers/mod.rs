@@ -1,5 +1,5 @@
-use actix_web::cookie::CookieBuilder;
 use actix_web::{web, HttpRequest, HttpResponse, Responder};
+use actix_web::cookie::{CookieBuilder, SameSite};
 use futures::TryStreamExt;
 use serde::Serialize;
 use sqlx::{Pool, Postgres, Row};
@@ -178,6 +178,7 @@ pub async fn add_to_cart(
         .path("/")
         .secure(true)
         .http_only(true)
+        .same_site(SameSite::Strict)
         .finish();
 
     HttpResponse::Ok().cookie(cookie).finish()
