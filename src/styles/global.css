@@ -71,5 +71,5 @@ body {
   gap: 20px;
   justify-content: space-evenly;
   min-height: 100vh;
-  padding: 100px;
+  padding: 100px 5vw;
 }

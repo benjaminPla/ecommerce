@@ -17,8 +17,8 @@
 
     <div class="product-list">
       {% for product in products %}
-      <div class="product-card">
-        <a href="/product/{{ product.id }}" class="product-link">
+      <a href="/product/{{ product.id }}" class="product-link">
+        <div class="product-card">
           <img
             src="{{ product.image_url }}"
             alt="{{ product.name }}"
@@ -27,35 +27,8 @@
           <h2 class="product-name">{{ product.name }}</h2>
           <p class="product-description">{{ product.description }}</p>
           <p class="product-price">${{ product.price }}</p>
-          <p class="product-category">Category: {{ product.category }}</p>
-          <p class="product-stock">In Stock: {{ product.stock_quantity }}</p>
-        </a>
-        <label for="quantity-{{ product.id }}">Quantity:</label>
-        <input
-          type="number"
-          id="quantity-{{ product.id }}"
-          name="quantity"
-          min="1"
-          max="100"
-          value="1"
-        />
-        <button
-          class="add-button"
-          hx-post="/add_to_cart/{{ product.id }}"
-          hx-trigger="click"
-          hx-include="#quantity-{{ product.id }}"
-        >
-          Add to Cart
-        </button>
-        <button
-          class="remove-button"
-          hx-post="/remove_from_cart/{{ product.id }}"
-          hx-trigger="click"
-        >
-          Remove from Cart
-        </button>
-        <button class="buy-button">Buy Now</button>
-      </div>
+        </div>
+      </a>
       {% endfor %}
     </div>
   </body>
