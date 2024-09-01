@@ -22,13 +22,15 @@
   --note-color: #ffff00;
 
   /* Button */
-  --buy-button: #ef4444;
   --add-button-color: #00cc66;
+  --buy-button-color: #ef4444;
+  --remove-button-color: #ff8800;
 
   /* Hover Colors */
-  --link-hover-color: #5e83b3;
-  --buy-button-hover-color: #b91c1c;
   --add-button-hover-color: #00994d;
+  --buy-button-hover-color: #b91c1c;
+  --remove-button-hover-color: #b91c1c;
+  --link-hover-color: #5e83b3;
 
   /* Retro Console Specific Colors */
   --console-green: #00ff33;

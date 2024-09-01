@@ -260,6 +260,35 @@ pub async fn add_to_cart(
     HttpResponse::Ok().cookie(cookie).finish()
 }
 
+pub async fn remove_from_cart(path: web::Path<(i32,)>, req: HttpRequest) -> impl Responder {
+    let id_to_remove = path.into_inner().0;
+    let mut cart: HashMap<i32, i32> = HashMap::new();
+    if let Some(cookie) = req.cookie("cart") {
+        for item in cookie.value().split(',') {
+            if let Some((id_str, qty_str)) = item.split_once(':') {
+                if let (Ok(id), Ok(qty)) = (id_str.parse::<i32>(), qty_str.parse::<i32>()) {
+                    if id != id_to_remove {
+                        cart.insert(id, qty);
+                    }
+                }
+            }
+        }
+    }
+    let cart_value = cart
+        .into_iter()
+        .map(|(id, qty)| format!("{}:{}", id, qty))
+        .collect::<Vec<String>>()
+        .join(",");
+
+    let cookie = CookieBuilder::new("cart", cart_value)
+        .path("/")
+        .secure(true)
+        .http_only(true)
+        .same_site(SameSite::Strict)
+        .finish();
+    HttpResponse::Ok().cookie(cookie).finish()
+}
+
 pub async fn not_found(tmpl: web::Data<Tera>) -> impl Responder {
     let mut context = Context::new();
     context.insert("title", "Ecommerce - Not Found");

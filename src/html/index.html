@@ -47,6 +47,13 @@
         >
           Add to Cart
         </button>
+        <button
+          class="remove-button"
+          hx-post="/remove_from_cart/{{ product.id }}"
+          hx-trigger="click"
+        >
+          Remove from Cart
+        </button>
         <button class="buy-button">Buy Now</button>
       </div>
       {% endfor %}
