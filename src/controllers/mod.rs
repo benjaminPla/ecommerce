@@ -36,10 +36,8 @@ struct CartProduct {
 }
 
 pub async fn home(pool: web::Data<Pool<Postgres>>, tmpl: web::Data<Tera>) -> impl Responder {
-    let mut rows = sqlx::query(
-        "SELECT id, name, description, price, image_url FROM products;",
-    )
-    .fetch(pool.get_ref());
+    let mut rows = sqlx::query("SELECT id, name, description, price, image_url FROM products;")
+        .fetch(pool.get_ref());
     let mut products: Vec<HomeProduct> = Vec::new();
     while let Some(row) = rows.try_next().await.unwrap_or_else(|error| {
         eprint!("{:#?}", error);
@@ -137,6 +135,19 @@ pub async fn cart(
 ) -> impl Responder {
     match req.cookie("cart") {
         Some(cookie) => {
+            if cookie.value().is_empty() {
+                let mut context = Context::new();
+                context.insert("title", "Cart");
+
+                return match tmpl.render("empty_cart.html", &context) {
+                    Ok(rendered) => HttpResponse::Ok().body(rendered),
+                    Err(err) => {
+                        eprintln!("Error rendering empty cart template: {:#?}", err);
+                        HttpResponse::InternalServerError()
+                            .body("Error rendering empty cart template")
+                    }
+                };
+            }
             let mut cart_items: HashMap<i32, i32> = HashMap::new();
             for product in cookie.value().split(',') {
                 match product.split_once(':') {
@@ -291,7 +302,11 @@ pub async fn remove_from_cart(path: web::Path<(i32,)>, req: HttpRequest) -> impl
         .http_only(true)
         .same_site(SameSite::Strict)
         .finish();
-    HttpResponse::Ok().cookie(cookie).finish()
+    HttpResponse::Gone()
+        .insert_header(("Location", "/cart"))
+        .insert_header(("HX-Refresh", "true"))
+        .cookie(cookie)
+        .finish()
 }
 
 pub async fn not_found(tmpl: web::Data<Tera>) -> impl Responder {
