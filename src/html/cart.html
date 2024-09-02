@@ -19,6 +19,7 @@
           <th class="table-header">Quantity</th>
           <th class="table-header">Price per Item</th>
           <th class="table-header">Total Price</th>
+          <th class="table-header">Remove</th>
         </tr>
       </thead>
       <tbody>
@@ -28,11 +29,13 @@
           <td class="table-cell">{{ product.quantity }}</td>
           <td class="table-cell">${{ product.price }}</td>
           <td class="table-cell">${{ product.total_price }}</td>
+          <td class="table-cell remove-button">X</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
 
     <h2 class="total-amount">Total: ${{ total_amount }}</h2>
+    <button class="buy-button">Buy Now</button>
   </body>
 </html>
