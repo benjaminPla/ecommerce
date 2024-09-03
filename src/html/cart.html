@@ -30,7 +30,9 @@
       <tbody>
         {% for product in products %}
         <tr class="table-row">
-          <td class="table-cell">{{ product.name }}</td>
+          <td class="table-cell product-link">
+            <a href="/product/{{ product.id }}">{{ product.name }}</a>
+          </td>
           <td class="table-cell">{{ product.quantity }}</td>
           <td class="table-cell">${{ product.price }}</td>
           <td class="table-cell">${{ product.total_price }}</td>

@@ -40,9 +40,10 @@
         />
         <button
           class="add-button"
-          hx-post="/add_to_cart/{{  product.id }}"
-          hx-trigger="click"
           hx-include="#quantity-{{ product.id }}"
+          hx-post="/add_to_cart/{{  product.id }}"
+          hx-swap="none"
+          hx-trigger="click"
         >
           Add to Cart
         </button>

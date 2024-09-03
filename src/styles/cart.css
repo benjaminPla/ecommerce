@@ -21,6 +21,15 @@
   border-bottom: 1px solid var(--border-color);
 }
 
+.product-link {
+  color: var(--link-color);
+  cursor: pointer;
+}
+
+.product-link:hover {
+  color: var(--link-hover-color);
+}
+
 .total-amount {
   text-align: center;
   color: var(--error-color);
