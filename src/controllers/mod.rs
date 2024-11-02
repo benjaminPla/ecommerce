@@ -33,7 +33,7 @@ struct CartProduct {
     name: String,
     price: f64,
     quantity: i32,
-    total_price: f64,
+    total_price_item: f64,
 }
 
 pub async fn home(pool: web::Data<Pool<Postgres>>, tmpl: web::Data<Tera>) -> impl Responder {
@@ -195,7 +195,7 @@ pub async fn cart(
                 .fetch(pool.get_ref());
 
             let mut products: Vec<CartProduct> = Vec::new();
-            let mut total_amount: f64 = 0.0;
+            let mut total_price: f64 = 0.0;
 
             while let Some(row) = rows.try_next().await.unwrap_or_else(|error| {
                 eprintln!("Database query error: {:#?}", error);
@@ -210,24 +210,25 @@ pub async fn cart(
                         continue;
                     }
                 };
-
                 if let Some(&quantity) = cart_items.get(&id) {
-                    let total_price = (price * quantity as f64 * 100.0).round() / 100.0;
+                let total_price_item = price * quantity as f64;
+                    total_price += total_price_item;
                     products.push(CartProduct {
                         id,
                         name,
                         price,
                         quantity,
-                        total_price,
+                        total_price_item,
                     });
-                    total_amount = (total_amount + total_price * 100.0).round() / 100.0;
                 }
             }
+
+            total_price = (total_price * 100.0).round() / 100.0;
 
             let mut context = Context::new();
             context.insert("title", "Cart");
             context.insert("products", &products);
-            context.insert("total_amount", &total_amount);
+            context.insert("total_price", &total_price);
 
             match tmpl.render("cart.html", &context) {
                 Ok(rendered) => HttpResponse::Ok().body(rendered),

@@ -15,16 +15,14 @@
   <body>
     {% include "_navbar.html" %}
 
-    <h1 class="page-title">{{ title }}</h1>
-
     <table class="cart-table">
       <thead>
         <tr>
           <th class="table-header"><p>Product Name</p></th>
           <th class="table-header"><p>Quantity</p></th>
           <th class="table-header"><p>Price per Item</p></th>
-          <th class="table-header"><p>Total Price</p></th>
-          <th class="table-header"><p>Remove</p></th>
+          <th class="table-header"><p>Total Price per Item</p></th>
+          <th class="table-header"><p>Actions</p></th>
         </tr>
       </thead>
       <tbody>
@@ -50,26 +48,26 @@
             <p>${{ product.price }}</p>
           </td>
           <td class="table-cell">
-            <p>${{ product.total_price }}</p>
+            <p>${{ product.total_price_item }}</p>
           </td>
-          <td class="table-cell remove-button">
-            <p>
-              <button
-                class="remove-button"
-                hx-post="/remove_from_cart/{{ product.id }}"
-                hx-swap="none"
-                hx-trigger="click"
-              >
-                X
-              </button>
-            </p>
+          <td class="table-cell">
+            <button
+              class="remove-button"
+              hx-post="/remove_from_cart/{{ product.id }}"
+              hx-swap="none"
+              hx-trigger="click"
+            >
+              Remove
+            </button>
           </td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
 
-    <h2 class="total-amount">Total: ${{ total_amount }}</h2>
-    <button class="buy-button">Buy Now</button>
+    <div>
+      <p class="total-price">TOTAL PRICE: ${{ total_price }}</p>
+      <button class="buy-button">Buy Now</button>
+    </div>
   </body>
 </html>

@@ -1,13 +1,9 @@
-.page-title {
-  color: var(--primary-text-color);
-  text-align: center;
-}
-
 .cart-table {
   background-color: var(--card-background-color);
   border-collapse: collapse;
   color: var(--primary-text-color);
   text-align: left;
+  width: 100%;
 }
 
 .table-header {
@@ -30,11 +26,6 @@
   color: var(--link-hover-color);
 }
 
-.total-amount {
-  text-align: center;
-  color: var(--error-color);
-}
-
 .remove-button {
   background-color: var(--remove-button-color);
   border: none;
@@ -49,6 +40,11 @@
 
 .remove-button:hover {
   background-color: var((--remove-button-hover-color));
+}
+
+.total-amount {
+  text-align: center;
+  color: var(--error-color);
 }
 
 .buy-button {
