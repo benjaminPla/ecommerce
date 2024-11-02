@@ -47,7 +47,13 @@ pub async fn home(pool: web::Data<Pool<Postgres>>, tmpl: web::Data<Tera>) -> imp
         let id: i32 = row.try_get("id").unwrap_or_default();
         let name: String = row.try_get("name").unwrap_or_default();
         let description: String = row.try_get("description").unwrap_or_default();
-        let price: f64 = row.try_get::<f64, _>("price").unwrap_or_default();
+        let price: f64 = match row.try_get::<f64, _>("price") {
+            Ok(value) => (value * 100.0).round() / 100.0,
+            Err(error) => {
+                eprintln!("Error retrieving price for product {}: {:#?}", id, error);
+                continue;
+            }
+        };
         let image_url: String = row.try_get("image_url").unwrap_or_default();
         let product = HomeProduct {
             description,
@@ -95,7 +101,14 @@ pub async fn product_details(
             let id: i32 = row.try_get("id").unwrap_or_default();
             let name: String = row.try_get("name").unwrap_or_default();
             let description: String = row.try_get("description").unwrap_or_default();
-            let price: f64 = row.try_get::<f64, _>("price").unwrap_or_default();
+            let price: f64 = match row.try_get::<f64, _>("price") {
+                Ok(value) => (value * 100.0).round() / 100.0,
+                Err(error) => {
+                    eprintln!("Error retrieving price for product {}: {:#?}", id, error);
+                    return HttpResponse::InternalServerError()
+                        .body("Error retrieving product details");
+                }
+            };
             let stock_quantity: i32 = row.try_get("stock_quantity").unwrap_or_default();
             let category: String = row.try_get("category").unwrap_or_default();
             let image_url: String = row.try_get("image_url").unwrap_or_default();
@@ -182,7 +195,7 @@ pub async fn cart(
                 .fetch(pool.get_ref());
 
             let mut products: Vec<CartProduct> = Vec::new();
-            let mut total_amount = 0.0;
+            let mut total_amount: f64 = 0.0;
 
             while let Some(row) = rows.try_next().await.unwrap_or_else(|error| {
                 eprintln!("Database query error: {:#?}", error);
@@ -190,10 +203,16 @@ pub async fn cart(
             }) {
                 let id: i32 = row.try_get("id").unwrap_or_default();
                 let name: String = row.try_get("name").unwrap_or_default();
-                let price: f64 = row.try_get("price").unwrap_or_default();
+                let price: f64 = match row.try_get::<f64, _>("price") {
+                    Ok(value) => (value * 100.0).round() / 100.0,
+                    Err(error) => {
+                        eprintln!("Error retrieving price for product {}: {:#?}", id, error);
+                        continue;
+                    }
+                };
 
                 if let Some(&quantity) = cart_items.get(&id) {
-                    let total_price = price * quantity as f64;
+                    let total_price = (price * quantity as f64 * 100.0).round() / 100.0;
                     products.push(CartProduct {
                         id,
                         name,
@@ -201,7 +220,7 @@ pub async fn cart(
                         quantity,
                         total_price,
                     });
-                    total_amount += total_price;
+                    total_amount = (total_amount + total_price * 100.0).round() / 100.0;
                 }
             }
 
