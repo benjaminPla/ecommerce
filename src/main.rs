@@ -7,7 +7,8 @@ use controllers::{add_to_cart, cart, home, not_found, product_details, remove_fr
 use dotenv::dotenv;
 use sqlx::{Pool, Postgres};
 use tera::Tera;
-use utils::{create_database_pool, populate_database_with_mock_products, setup_database};
+// use utils::{create_database_pool, populate_database_with_mock_products, setup_database};
+use utils::{create_database_pool, setup_database};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {

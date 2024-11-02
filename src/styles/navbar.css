@@ -16,12 +16,3 @@
   justify-content: center;
   color: var(--link-color);
 }
-
-.nav-link {
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.nav-link:hover {
-  color: var(--link-hover-color);
-}

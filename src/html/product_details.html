@@ -18,9 +18,9 @@
     <div class="product-card">
       <div class="product-image-container">
         <img
-          src="{{ product.image_url }}"
           alt="{{ product.name }}"
           class="product-image"
+          src="{{ product.image_url }}"
         />
       </div>
       <div class="product-info">
@@ -31,11 +31,11 @@
         <p class="product-stock">In Stock: {{ product.stock_quantity }}</p>
         <label for="quantity-{{ product.id }}">Quantity:</label>
         <input
-          type="number"
           id="quantity-{{ product.id }}"
-          name="quantity"
-          min="1"
           max="100"
+          min="1"
+          name="quantity"
+          type="number"
           value="1"
         />
         <button
