@@ -1,4 +1,5 @@
 use actix_web::cookie::{CookieBuilder, SameSite};
+use actix_web::http::header::HeaderValue;
 use actix_web::{web, HttpRequest, HttpResponse, Responder};
 use futures::TryStreamExt;
 use serde::Serialize;
@@ -273,7 +274,10 @@ pub async fn add_to_cart(
         .same_site(SameSite::Strict)
         .finish();
 
-    HttpResponse::Ok().cookie(cookie).finish()
+    HttpResponse::SeeOther()
+        .insert_header(("HX-Redirect", HeaderValue::from_static("/cart")))
+        .cookie(cookie)
+        .finish()
 }
 
 pub async fn remove_from_cart(path: web::Path<(i32,)>, req: HttpRequest) -> impl Responder {
