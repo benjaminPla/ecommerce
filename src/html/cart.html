@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script
-      src="https://unpkg.com/htmx.org@2.0.2"
-      integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ"
       crossorigin="anonymous"
+      integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ"
+      src="https://unpkg.com/htmx.org@2.0.2"
     ></script>
     <title>{{ title }}</title>
     <link rel="stylesheet" href="../styles/global.css" />
@@ -20,31 +20,49 @@
     <table class="cart-table">
       <thead>
         <tr>
-          <th class="table-header">Product Name</th>
-          <th class="table-header">Quantity</th>
-          <th class="table-header">Price per Item</th>
-          <th class="table-header">Total Price</th>
-          <th class="table-header">Remove</th>
+          <th class="table-header"><p>Product Name</p></th>
+          <th class="table-header"><p>Quantity</p></th>
+          <th class="table-header"><p>Price per Item</p></th>
+          <th class="table-header"><p>Total Price</p></th>
+          <th class="table-header"><p>Remove</p></th>
         </tr>
       </thead>
       <tbody>
         {% for product in products %}
         <tr class="table-row">
           <td class="table-cell product-link">
-            <a href="/product/{{ product.id }}">{{ product.name }}</a>
+            <p><a href="/product/{{ product.id }}">{{ product.name }}</a></p>
           </td>
-          <td class="table-cell">{{ product.quantity }}</td>
-          <td class="table-cell">${{ product.price }}</td>
-          <td class="table-cell">${{ product.total_price }}</td>
-          <td class="table-cell remove-button">
-            <button
-              class="remove-button"
-              hx-post="/remove_from_cart/{{ product.id }}"
-              hx-trigger="click"
+          <td class="table-cell">
+            <input
+              hx-include="#quantity-{{ product.id }}"
+              hx-post="/add_to_cart/{{  product.id }}"
               hx-swap="none"
-            >
-              X
-            </button>
+              id="quantity-{{ product.id }}"
+              max="100"
+              min="1"
+              name="quantity"
+              type="number"
+              value="{{product.quantity}}"
+            />
+          </td>
+          <td class="table-cell">
+            <p>${{ product.price }}</p>
+          </td>
+          <td class="table-cell">
+            <p>${{ product.total_price }}</p>
+          </td>
+          <td class="table-cell remove-button">
+            <p>
+              <button
+                class="remove-button"
+                hx-post="/remove_from_cart/{{ product.id }}"
+                hx-swap="none"
+                hx-trigger="click"
+              >
+                X
+              </button>
+            </p>
           </td>
         </tr>
         {% endfor %}
