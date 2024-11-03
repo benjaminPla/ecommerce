@@ -1,4 +1,4 @@
-use actix_web::cookie::{CookieBuilder, SameSite};
+use actix_web::cookie::{time::Duration, CookieBuilder, SameSite};
 use actix_web::http::header::HeaderValue;
 use actix_web::{web, HttpRequest, HttpResponse, Responder};
 use futures::TryStreamExt;
@@ -211,7 +211,7 @@ pub async fn cart(
                     }
                 };
                 if let Some(&quantity) = cart_items.get(&id) {
-                let total_price_item = price * quantity as f64;
+                    let total_price_item = price * quantity as f64;
                     total_price += total_price_item;
                     products.push(CartProduct {
                         id,
@@ -292,6 +292,7 @@ pub async fn add_to_cart(
         .secure(true)
         .http_only(true)
         .same_site(SameSite::Strict)
+        .max_age(Duration::weeks(1))
         .finish();
 
     HttpResponse::SeeOther()
@@ -325,6 +326,7 @@ pub async fn remove_from_cart(path: web::Path<(i32,)>, req: HttpRequest) -> impl
         .secure(true)
         .http_only(true)
         .same_site(SameSite::Strict)
+        .max_age(Duration::weeks(1))
         .finish();
     HttpResponse::Gone()
         .insert_header(("Location", "/cart"))
