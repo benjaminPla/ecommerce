@@ -18,7 +18,7 @@ pub async fn setup_database(pool: Pool<Postgres>) -> Result<(), sqlx::Error> {
         "CREATE TABLE IF NOT EXISTS products (
         category VARCHAR(50),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        description VARCHAR(500),
+        description VARCHAR(255),
         id SERIAL PRIMARY KEY,
         image_url VARCHAR(255),
         is_active BOOLEAN DEFAULT TRUE,
