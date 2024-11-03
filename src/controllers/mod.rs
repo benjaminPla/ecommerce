@@ -160,7 +160,7 @@ pub async fn cart(
                     Err(err) => {
                         eprintln!("Error rendering empty cart template: {:#?}", err);
                         HttpResponse::InternalServerError()
-                            .body("Error rendering empty cart template")
+                            .body("Error rendering template")
                     }
                 };
             }
@@ -236,7 +236,7 @@ pub async fn cart(
                 Ok(rendered) => HttpResponse::Ok().body(rendered),
                 Err(err) => {
                     eprintln!("Error rendering cart template: {:#?}", err);
-                    HttpResponse::InternalServerError().body("Error rendering cart template")
+                    HttpResponse::InternalServerError().body("Error rendering template")
                 }
             }
         }
@@ -248,7 +248,7 @@ pub async fn cart(
                 Ok(rendered) => HttpResponse::Ok().body(rendered),
                 Err(err) => {
                     eprintln!("Error rendering empty cart template: {:#?}", err);
-                    HttpResponse::InternalServerError().body("Error rendering empty cart template")
+                    HttpResponse::InternalServerError().body("Error rendering template")
                 }
             }
         }
@@ -364,7 +364,7 @@ pub async fn payment(
                 Ok(rendered) => HttpResponse::Ok().body(rendered),
                 Err(err) => {
                     eprintln!("Error rendering empty cart template: {:?}", err);
-                    HttpResponse::InternalServerError().body("Error rendering empty cart template")
+                    HttpResponse::InternalServerError().body("Error rendering template")
                 }
             };
         }
@@ -451,8 +451,8 @@ pub async fn payment(
     let client_secret = {
         let mut create_intent =
             CreatePaymentIntent::new((total_price * 100.0) as i64, Currency::EUR);
-        create_intent.confirm = Some(true);
-        create_intent.return_url = Some("http://localhost:8080/payment-webhook");
+        create_intent.confirm = Some(false);
+        // create_intent.return_url = Some("http://localhost:8080/stripe-webhook");
         // create_intent.shipping = Some(&shipping);
 
         let mut description_vec: Vec<String> = Vec::new();
@@ -489,7 +489,28 @@ pub async fn payment(
         Ok(rendered) => HttpResponse::Ok().body(rendered),
         Err(err) => {
             eprintln!("Template rendering error: {:?}", err);
-            HttpResponse::InternalServerError().body("Error rendering payment template")
+            HttpResponse::InternalServerError().body("Error rendering template")
+        }
+    }
+}
+
+pub async fn stripe_webhook(tmpl: web::Data<Tera>) -> impl Responder {
+    let cookie = CookieBuilder::new("cart", "")
+        .path("/")
+        .secure(true)
+        .http_only(true)
+        .same_site(SameSite::Strict)
+        .max_age(Duration::weeks(1))
+        .finish();
+
+    let mut context = Context::new();
+    context.insert("title", "Thank You!");
+
+    match tmpl.render("stripe-webhook.html", &context) {
+        Ok(rendered) => HttpResponse::Ok().cookie(cookie).body(rendered),
+        Err(err) => {
+            eprintln!("Template rendering error: {:?}", err);
+            HttpResponse::InternalServerError().body("Error rendering template")
         }
     }
 }
