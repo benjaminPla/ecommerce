@@ -5,6 +5,8 @@ use futures::TryStreamExt;
 use serde::Serialize;
 use sqlx::{Pool, Postgres, Row};
 use std::collections::HashMap;
+use std::env;
+use stripe::{CreatePaymentIntent, Currency, PaymentIntent};
 use tera::{Context, Tera};
 
 #[derive(Serialize)]
@@ -41,7 +43,7 @@ pub async fn home(pool: web::Data<Pool<Postgres>>, tmpl: web::Data<Tera>) -> imp
         .fetch(pool.get_ref());
     let mut products: Vec<HomeProduct> = Vec::new();
     while let Some(row) = rows.try_next().await.unwrap_or_else(|error| {
-        eprint!("{:#?}", error);
+        eprintln!("{:#?}", error);
         None
     }) {
         let id: i32 = row.try_get("id").unwrap_or_default();
@@ -343,6 +345,57 @@ pub async fn not_found(tmpl: web::Data<Tera>) -> impl Responder {
         Ok(rendered) => HttpResponse::Ok().body(rendered),
         Err(err) => {
             eprintln!("{:#?}", err);
+            HttpResponse::InternalServerError().body("Error rendering template")
+        }
+    }
+}
+
+pub async fn payment(tmpl: web::Data<Tera>) -> impl Responder {
+    let stripe_private_key = match env::var("STRIPE_PRIVATE_KEY") {
+        Ok(key) => key,
+        Err(_) => {
+            eprintln!("Error: Missing `STRIPE_PRIVATE_KEY` environment variable");
+            return HttpResponse::InternalServerError().body("Error rendering template");
+        }
+    };
+    let stripe_public_key = match env::var("STRIPE_PUBLIC_KEY") {
+        Ok(key) => key,
+        Err(_) => {
+            eprintln!("Error: Missing `STRIPE_PUBLIC_KEY` environment variable");
+            return HttpResponse::InternalServerError().body("Error rendering template");
+        }
+    };
+    let client = stripe::Client::new(stripe_private_key);
+
+    let client_secret = {
+        let mut create_intent = CreatePaymentIntent::new(1000, Currency::EUR);
+        create_intent.confirm = Some(false);
+
+        match PaymentIntent::create(&client, create_intent).await {
+            Ok(payment_intent) => match payment_intent.client_secret {
+                Some(secret) => secret,
+                None => {
+                    eprintln!("No client secret found in payment intent");
+                    return HttpResponse::InternalServerError().body("Error rendering template");
+                }
+            },
+            Err(error) => {
+                eprintln!("Failed to create payment intent: {:?}", error);
+                return HttpResponse::InternalServerError().body("Error rendering template");
+            }
+        }
+    };
+
+    let mut context = Context::new();
+    context.insert("title", "Ecommerce - Payment");
+    context.insert("STRIPE_PUBLIC_KEY", &stripe_public_key);
+    context.insert("CLIENT_SECRET", &client_secret);
+
+    match tmpl.render("payment.html", &context) {
+        Ok(rendered) => HttpResponse::Ok().body(rendered),
+
+        Err(err) => {
+            eprintln!("Template rendering error: {:?}", err);
             HttpResponse::InternalServerError().body("Error rendering template")
         }
     }

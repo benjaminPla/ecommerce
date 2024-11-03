@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://unpkg.com/htmx.org@2.0.2"
+      integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link rel="stylesheet" href="../styles/global.css" />
+    <link rel="stylesheet" href="../styles/payment.css" />
+    <title>{{ title }}</title>
+  </head>
+  <body>
+    {% include "_navbar.html" %}
+
+    <div class="stipe-form-container">
+      <div id="stripe-form"></div>
+    </div>
+  </body>
+  <script>
+    const stripe = Stripe("{{STRIPE_PUBLIC_KEY}}");
+    const clientSecret = "{{ CLIENT_SECRET }}";
+
+    const appearance = {};
+    const options = {};
+
+    const elements = stripe.elements({ clientSecret, appearance });
+    const paymentElement = elements.create("payment", options);
+    paymentElement.mount("#stripe-form");
+  </script>
+</html>

@@ -3,7 +3,7 @@ mod utils;
 
 use actix_files::Files;
 use actix_web::{web, App, HttpResponse, HttpServer};
-use controllers::{add_to_cart, cart, home, not_found, product_details, remove_from_cart};
+use controllers::{add_to_cart, cart, home, not_found, product_details, remove_from_cart, payment};
 use dotenv::dotenv;
 use sqlx::{Pool, Postgres};
 use tera::Tera;
@@ -41,6 +41,7 @@ async fn main() -> std::io::Result<()> {
             .route("/cart", web::get().to(cart))
             .route("/add_to_cart/{id}", web::post().to(add_to_cart))
             .route("/remove_from_cart/{id}", web::post().to(remove_from_cart))
+            .route("/payment", web::get().to(payment))
             .service(Files::new("/styles", "src/styles").show_files_listing())
             .default_service(web::route().to(not_found))
     })
