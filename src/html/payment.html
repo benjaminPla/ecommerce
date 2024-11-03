@@ -16,15 +16,17 @@
   <body>
     {% include "_navbar.html" %}
 
+    <p>Total price: ${{ total_price }}</p>
+    <p>Description: {{ description }}</p>
     <div class="stipe-form-container">
       <div id="stripe-form"></div>
     </div>
   </body>
   <script>
-    const stripe = Stripe("{{STRIPE_PUBLIC_KEY}}");
+    const stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
     const clientSecret = "{{ CLIENT_SECRET }}";
 
-    const appearance = {};
+    const appearance = { theme: "stripe" };
     const options = {};
 
     const elements = stripe.elements({ clientSecret, appearance });

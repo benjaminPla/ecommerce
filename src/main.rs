@@ -3,7 +3,7 @@ mod utils;
 
 use actix_files::Files;
 use actix_web::{web, App, HttpResponse, HttpServer};
-use controllers::{add_to_cart, cart, home, not_found, product_details, remove_from_cart, payment};
+use controllers::{add_to_cart, cart, home, not_found, payment, product_details, remove_from_cart};
 use dotenv::dotenv;
 use sqlx::{Pool, Postgres};
 use tera::Tera;
