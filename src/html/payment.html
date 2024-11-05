@@ -18,13 +18,36 @@
 
     <p>Total price: ${{ total_price }}</p>
     <p>Description: {{ description }}</p>
+
     <div class="stripe-form-container">
       <form id="stripe-form">
+        <h2>Contact Details</h2>
+        <label for="customer_fullname">Full Name:</label><br />
+        <input
+          id="customer_fullname"
+          name="customer_fullname"
+          required
+          type="text"
+        /><br />
+        <label for="customer_email">Email:</label><br />
+        <input
+          id="customer_email"
+          name="customer_email"
+          type="email"
+          required
+        /><br />
+        <label for="customer_phone">Phone:</label><br />
+        <input
+          id="customer_phone"
+          name="customer_phone"
+          type="tel"
+          required
+        /><br />
+
         <div id="stripe-elements"></div>
         <button type="submit">Pay</button>
       </form>
     </div>
-
     <script>
       const stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
       const clientSecret = "{{ CLIENT_SECRET }}";
@@ -38,10 +61,22 @@
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
+        const customerFullname =
+          document.getElementById("customer_fullname").value;
+        const customerEmail = document.getElementById("customer_email").value;
+        const customerPhone = document.getElementById("customer_phone").value;
+
         await stripe.confirmPayment({
           elements,
           confirmParams: {
             return_url: "http://localhost:8080/stripe-webhook",
+            payment_method_data: {
+              billing_details: {
+                email: customerEmail,
+                name: customerFullname,
+                phone: customerPhone,
+              },
+            },
           },
         });
       });
