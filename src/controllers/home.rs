@@ -36,7 +36,7 @@ pub async fn handler(pool: web::Data<Pool<Postgres>>, tmpl: web::Data<Tera>) -> 
         Ok(rendered) => HttpResponse::Ok().body(rendered),
         Err(err) => {
             eprintln!("Template rendering failed: {:#?}", err);
-            HttpResponse::InternalServerError().body("Error rendering template")
+            HttpResponse::InternalServerError().body("Internal Server Error")
         }
     }
 }

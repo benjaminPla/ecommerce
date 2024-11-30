@@ -5,3 +5,4 @@
 - add helper fn to `try_get` values from db
 - consolidate `eprintln!` output
 - consolidate `context.title`
+- add index.html empty component if no products

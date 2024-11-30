@@ -1,3 +1,4 @@
+use crate::utils;
 use actix_web::{web, HttpResponse, Responder};
 use serde::Serialize;
 use sqlx::{Pool, Postgres, Row};
@@ -21,59 +22,70 @@ pub async fn handler(
 ) -> impl Responder {
     let id = path.into_inner().0;
 
-    let result = sqlx::query(
-        "
+    let query = "
         SELECT id, name, description, price, stock_quantity, category, image_url
         FROM products
         WHERE id = $1;
-        ",
-    )
-    .bind(id)
-    .fetch_one(pool.get_ref())
-    .await;
+        ";
 
-    let product = match result {
-        Ok(row) => {
-            let id: i32 = row.try_get("id").unwrap_or_default();
-            let name: String = row.try_get("name").unwrap_or_default();
-            let description: String = row.try_get("description").unwrap_or_default();
-            let price: f64 = match row.try_get::<f64, _>("price") {
-                Ok(value) => (value * 100.0).round() / 100.0,
-                Err(error) => {
-                    eprintln!("Error retrieving price for product {}: {:#?}", id, error);
-                    return HttpResponse::InternalServerError()
-                        .body("Error retrieving product details");
-                }
-            };
-            let stock_quantity: i32 = row.try_get("stock_quantity").unwrap_or_default();
-            let category: String = row.try_get("category").unwrap_or_default();
-            let image_url: String = row.try_get("image_url").unwrap_or_default();
-
-            DetailsProduct {
-                id,
-                name,
-                description,
-                price,
-                stock_quantity,
-                category,
-                image_url,
-            }
+    let row = match sqlx::query(query).bind(id).fetch_one(pool.get_ref()).await {
+        Ok(row) => row,
+        Err(err) => {
+            eprintln!("Database query failed: {:#?}", err);
+            return HttpResponse::InternalServerError().body("Internal Server Error");
         }
-        Err(error) => {
-            eprintln!("{:#?}", error);
-            return HttpResponse::InternalServerError().body("Product not found");
+    };
+
+    let product: DetailsProduct = match map_row_to_product(row).await {
+        Ok(product) => product,
+        Err(err) => {
+            eprintln!("Product mapping failed: {}", err);
+            return HttpResponse::InternalServerError().body("Internal Server Error");
         }
     };
 
     let mut context = Context::new();
-    context.insert("title", &format!("{}", &product.name));
+    context.insert("title", &product.name);
     context.insert("product", &product);
 
     match tmpl.render("product_details.html", &context) {
         Ok(rendered) => HttpResponse::Ok().body(rendered),
         Err(err) => {
-            eprintln!("{:#?}", err);
-            HttpResponse::InternalServerError().body("Error rendering template")
+            eprintln!("Template rendering failed: {:#?}", err);
+            HttpResponse::InternalServerError().body("Internal Server Error")
         }
     }
+}
+
+async fn map_row_to_product(row: sqlx::postgres::PgRow) -> Result<DetailsProduct, String> {
+    let id: i32 = row.try_get("id").map_err(|_| "Missing `id`".to_string())?;
+    let name: String = row
+        .try_get("name")
+        .map_err(|_| "Missing `name`".to_string())?;
+    let description: String = row
+        .try_get("description")
+        .map_err(|_| "Missing `description`".to_string())?;
+    let price: f64 = row
+        .try_get::<f64, _>("price")
+        .map(utils::round_price)
+        .map_err(|_| "Invalid or missing `price`".to_string())?;
+    let stock_quantity: i32 = row
+        .try_get("stock_quantity")
+        .map_err(|_| "Missing `stock_quantity`".to_string())?;
+    let category: String = row
+        .try_get("category")
+        .map_err(|_| "Missing `category`".to_string())?;
+    let image_url: String = row
+        .try_get("image_url")
+        .map_err(|_| "Missing `image_url`".to_string())?;
+
+    Ok(DetailsProduct {
+        id,
+        name,
+        description,
+        price,
+        stock_quantity,
+        category,
+        image_url,
+    })
 }
