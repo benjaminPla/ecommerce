@@ -4,6 +4,10 @@ use std::env;
 use std::error::Error;
 use std::fs::File;
 
+pub fn round_price(price: f64) -> f64 {
+    (price * 100.0).round() / 100.0
+}
+
 pub async fn create_database_pool() -> Result<Pool<Postgres>, sqlx::Error> {
     let database_url = env::var("DATABASE_URL").expect("Missing `DATABASE_URL` env variable");
     let pool = PgPoolOptions::new()

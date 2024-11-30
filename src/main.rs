@@ -10,7 +10,7 @@ use dotenv::dotenv;
 use sqlx::{Pool, Postgres};
 use tera::Tera;
 // use utils::{create_database_pool, populate_database_with_mock_products, setup_database};
-use utils::{create_database_pool, setup_database};
+use utils::create_database_pool;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -20,9 +20,9 @@ async fn main() -> std::io::Result<()> {
         .await
         .expect("Error creating database pool");
 
-    setup_database(pool.clone())
-        .await
-        .expect("Error setting up the database");
+    // setup_database(pool.clone())
+    // .await
+    // .expect("Error setting up the database");
     // populate_database_with_mock_products(pool.clone())
     // .await
     // .expect("Error populating the database with products");
@@ -34,12 +34,12 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(pool_data.clone())
             .app_data(web::Data::new(tera.clone()))
-            .route("/", web::get().to(home))
+            .route("/", web::get().to(home::handler))
             .route(
                 "/status",
                 web::get().to(|| async { HttpResponse::Ok().body("ok") }),
             )
-            .route("/product/{id}", web::get().to(product_details))
+            .route("/product/{id}", web::get().to(product_details::handler))
             .route("/cart", web::get().to(cart))
             .route("/add_to_cart/{id}", web::post().to(add_to_cart))
             .route("/remove_from_cart/{id}", web::post().to(remove_from_cart))
