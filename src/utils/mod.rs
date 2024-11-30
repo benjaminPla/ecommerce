@@ -1,8 +1,24 @@
+use actix_web::{web, HttpResponse};
 use csv::ReaderBuilder;
 use sqlx::{postgres::PgPoolOptions, Pool, Postgres};
 use std::env;
 use std::error::Error;
 use std::fs::File;
+use tera::{Context, Tera};
+
+pub fn render_template(
+    tmpl: &web::Data<Tera>,
+    template_name: &str,
+    context: &Context,
+) -> HttpResponse {
+    match tmpl.render(template_name, context) {
+        Ok(rendered) => HttpResponse::Ok().body(rendered),
+        Err(err) => {
+            eprintln!("Error rendering _{}_ template: {:#?}", template_name, err);
+            HttpResponse::InternalServerError().body("Internal Server Error")
+        }
+    }
+}
 
 pub fn round_price(price: f64) -> f64 {
     (price * 100.0).round() / 100.0

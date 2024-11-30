@@ -40,7 +40,7 @@ async fn main() -> std::io::Result<()> {
                 web::get().to(|| async { HttpResponse::Ok().body("ok") }),
             )
             .route("/product/{id}", web::get().to(product_details::handler))
-            .route("/cart", web::get().to(cart))
+            .route("/cart", web::get().to(cart::handler))
             .route("/add_to_cart/{id}", web::post().to(add_to_cart))
             .route("/remove_from_cart/{id}", web::post().to(remove_from_cart))
             .route("/payment", web::get().to(payment))
