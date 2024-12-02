@@ -26,7 +26,7 @@
       <div class="product-info">
         <h2>{{ product.name }}</h2>
         <p class="product-description">{{ product.description }}</p>
-        <p class="product-price">Price pet item: ${{ product.price }}</p>
+        <p class="product-price">Price per item: <span class="price">${{ product.price }}</span></p>
         <p class="product-category">Category: {{ product.category }}</p>
         <p class="product-stock">In Stock: {{ product.stock_quantity }}</p>
         <label for="quantity-{{ product.id }}">Quantity:</label>
