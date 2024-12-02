@@ -28,7 +28,7 @@ fn map_row_to_product(
         Some(quantity) => *quantity,
         None => return Err("Error getting `quantity`".to_string()),
     };
-    let total_price_item: f64 = price * (quantity as f64);
+    let total_price_item: f64 = utils::round_price(price * (quantity as f64));
 
     Ok(CartProduct {
         id,
