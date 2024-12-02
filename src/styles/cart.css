@@ -1,5 +1,5 @@
 .cart-table {
-  background-color: var(--card-background-color);
+  background-color: var(--primary-background-color);
   border-collapse: collapse;
   color: var(--primary-text-color);
   text-align: left;
@@ -8,28 +8,19 @@
 
 .table-header {
   background-color: var(--secondary-background-color);
-  padding: 20px;
   border-bottom: 1px solid var(--border-color);
-}
-
-.table-cell {
   padding: 20px;
+}
+
+td {
   border-bottom: 1px solid var(--border-color);
-}
-
-.product-link {
-  color: var(--link-color);
-  cursor: pointer;
-}
-
-.product-link:hover {
-  color: var(--link-hover-color);
+  padding: 20px;
 }
 
 .remove-button {
   background-color: var(--remove-button-color);
   border: none;
-  border-radius: 5px;
+  border-radius: var(--border-radius);
   color: var(--primary-text-color);
   cursor: pointer;
   display: block;
@@ -43,14 +34,14 @@
 }
 
 .total-amount {
-  text-align: center;
   color: var(--error-color);
+  text-align: center;
 }
 
 .buy-button {
   background-color: var(--buy-button-color);
   border: none;
-  border-radius: 5px;
+  border-radius: var(--border-radius);
   color: var(--primary-text-color);
   cursor: pointer;
   display: block;

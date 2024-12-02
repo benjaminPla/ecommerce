@@ -1,41 +1,64 @@
 :root {
+  /* Core Colors */
+  --cyan: #00ffff; /* Cyan glow */
+  --magenta: #ff00ff; /* Magenta glow */
+  --yellow: #ffff00; /* Yellow glow */
+  --blue: #1e1f4b; /* Deep blue background */
+  --purple: #342f8f; /* Rich purple highlight */
+  --black: #0b0c16; /* Dark black */
+
   /* Backgrounds */
-  --background-color: #1a1a1a;
-  --secondary-background-color: #2b2b2b;
-  --card-background-color: #333333;
+  --primary-background-color: var(--black);
+  --secondary-background-color: var(--blue);
+  --tertiary-background-color: var(--purple);
 
   /* Text Colors */
-  --primary-text-color: #e8e8e8;
-  --secondary-text-color: #bfbfbf;
-  --muted-text-color: #7d7d7d;
+  --primary-text-color: #ffffff; /* Bright white */
+  --secondary-text-color: #cfcfff; /* Soft lavender */
+  --muted-text-color: #9999aa; /* Muted gray-lavender */
 
   /* Accent Colors */
-  --accent-color: #00ff6a;
-  --link-color: #7ab7ff;
-  --border-color: #444444;
+  --accent-color: var(--cyan);
+  --accent-color-dark: #00cccc; /* Slightly darker cyan */
+  --link-color: var(--magenta);
+  --link-hover-color: #d900d9; /* Darker magenta */
+  --border-color: var(--purple);
 
   /* State Colors */
-  --error-color: #f93a37;
-  --warning-color: #ff8800;
-  --success-color: #00cc66;
-  --info-color: #0099ff;
-  --note-color: #ffff00;
+  --error-color: #ff5555; /* Bright red */
+  --warning-color: var(--yellow);
+  --success-color: #33ff33; /* Bright green */
+  --info-color: var(--cyan);
+  --note-color: var(--yellow);
 
-  /* Button */
-  --add-button-color: #00cc66;
-  --buy-button-color: #ef4444;
-  --remove-button-color: #ff8800;
+  /* Buttons */
+  --add-button-color: var(--cyan);
+  --buy-button-color: #ff3333; /* Vivid red */
+  --remove-button-color: #ffaa00; /* Bright orange */
 
-  /* Hover Colors */
-  --add-button-hover-color: #00994d;
-  --buy-button-hover-color: #b91c1c;
-  --remove-button-hover-color: #b91c1c;
-  --link-hover-color: #5e83b3;
+  /* Button Hover Colors */
+  --add-button-hover-color: #00cccc; /* Darker cyan */
+  --buy-button-hover-color: #cc0000; /* Dark red */
+  --remove-button-hover-color: #cc8800; /* Dark orange */
 
   /* Retro Console Specific Colors */
-  --console-green: #00ff33;
-  --console-amber: #ffbf00;
-  --console-cyan: #00ffff;
+  --console-green: #00ff33; /* Bright green */
+  --console-amber: var(--yellow);
+  --console-cyan: var(--cyan);
+
+  /* Gradients */
+  --background-gradient: linear-gradient(135deg, var(--blue), var(--purple));
+  --button-gradient: linear-gradient(135deg, var(--magenta), var(--cyan));
+
+  /* Border Radius */
+  --border-radius: 12px;
+  --border-radius-sm: 6px;
+  --border-radius-lg: 20px;
+  --border-radius-full: 50%;
+
+  /* Shadows */
+  --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Deeper shadow */
+  --button-shadow: 0 2px 6px rgba(0, 0, 0, 0.4); /* Softer shadow */
 }
 
 * {
@@ -46,46 +69,100 @@
 
 body {
   align-items: center;
-  background-color: var(--background-color);
+  background-color: var(--secondary-background-color);
+  /* background-image: var(--background-gradient); */
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   gap: 20px;
   justify-content: space-evenly;
   min-height: 100vh;
   padding: 100px 5vw;
+  font-family: "Silkscreen", monospace;
 }
 
 a {
-  color: var(--link-color) !important;
+  color: var(--link-color);
   cursor: pointer;
   font-size: 1em;
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 a:hover {
   color: var(--link-hover-color);
 }
 
-a:visited,
-a:active,
-a:hover {
-  text-decoration: none;
-  color: inherit;
-}
-
-li {
-  list-style: none;
-  text-decoration: none;
+ul {
+  list-style-type: none;
 }
 
 h1,
 h2 {
   color: var(--primary-text-color);
-  font-size: 1.5em;
+  font-size: 1.8em;
 }
 
 p,
 label {
   color: var(--secondary-text-color);
+}
+
+button {
+  background: var(--button-gradient);
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: var(--button-shadow);
+  color: var(--primary-text-color);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1em;
+  padding: 10px 20px;
+  transition:
+    transform 0.2s ease,
+    background 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+.product-card {
+  background-color: var(--secondary-background-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+.product-image {
+  border-bottom: 1px solid var(--border-color);
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.add-button {
+  background-color: var(--add-button-color);
+  border-radius: var(--border-radius-sm);
+}
+
+.add-button:hover {
+  background-color: var(--add-button-hover-color);
+}
+
+.buy-button {
+  background-color: var(--buy-button-color);
+  border-radius: var(--border-radius-lg);
+}
+
+.buy-button:hover {
+  background-color: var(--buy-button-hover-color);
 }

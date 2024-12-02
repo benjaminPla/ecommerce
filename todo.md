@@ -6,3 +6,4 @@
 - consolidate `eprintln!` output
 - consolidate `context.title`
 - add index.html empty component if no products
+- responsive cart

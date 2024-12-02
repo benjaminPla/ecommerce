@@ -9,6 +9,12 @@
       src="https://unpkg.com/htmx.org@2.0.2"
     ></script>
     <title>{{ title }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Silkscreen:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="../styles/global.css" />
     <link rel="stylesheet" href="../styles/cart.css" />
   </head>
@@ -28,10 +34,10 @@
       <tbody>
         {% for product in products %}
         <tr class="table-row">
-          <td class="table-cell product-link">
-            <p><a href="/product/{{ product.id }}">{{ product.name }}</a></p>
+          <td>
+            <a href="/product/{{ product.id }}">{{ product.name }}</a>
           </td>
-          <td class="table-cell">
+          <td>
             <input
               hx-include="#quantity-{{ product.id }}"
               hx-post="/add_to_cart/{{  product.id }}"
@@ -44,13 +50,13 @@
               value="{{product.quantity}}"
             />
           </td>
-          <td class="table-cell">
+          <td>
             <p>${{ product.price }}</p>
           </td>
-          <td class="table-cell">
+          <td>
             <p>${{ product.total_price_item }}</p>
           </td>
-          <td class="table-cell">
+          <td>
             <button
               class="remove-button"
               hx-post="/remove_from_cart/{{ product.id }}"
@@ -66,8 +72,7 @@
 
     <div>
       <p class="total-price">TOTAL PRICE: ${{ total_price }}</p>
-      <button class="buy-button">
-        <a href="/payment">Buy Now</a>
+          <a href="/payment"><button class='buy-button'>Buy Now</button></a>
       </button>
     </div>
   </body>
