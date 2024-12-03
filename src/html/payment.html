@@ -12,18 +12,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Silkscreen:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../public/styles/global.css" />
     <link rel="stylesheet" href="../public/styles/payment.css" />
-    <title>{{ title }}</title>
+    <title>Secure Payment</title>
   </head>
   <body>
     {% include "_navbar.html" %}
 
-    <p>Total price: ${{ total_price }}</p>
-    <p>Description: {{ description }}</p>
+    <div class="payment-summary">
+      <h1>Ready to Checkout?</h1>
+      <p class="total-price">Total: <span>${{ total_price }}</span></p>
+      <p class="description">Description: {{ description }}</p>
+    </div>
 
     <div class="stripe-form-container">
       <form id="stripe-form">
@@ -51,14 +54,52 @@
         /><br />
 
         <div id="stripe-elements"></div>
-        <button type="submit">Pay</button>
+        <button class="pay-button" type="submit">Pay Securely</button>
       </form>
     </div>
+
     <script>
       const stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
       const clientSecret = "{{ CLIENT_SECRET }}";
 
-      const appearance = { theme: "stripe" };
+      const appearance = {
+        theme: "stripe",
+        variables: {
+          colorPrimary: "#00ffff", // Cyan for the primary color
+          colorBackground: "#0b0c16", // Dark black background
+          colorText: "#ffffff", // Bright white text
+          colorDanger: "#ff5555", // Bright red for errors
+          fontFamily: "monospace",
+          spacingUnit: "6px", // Larger spacing for a more spacious layout
+          borderRadius: "12px", // Match your site's rounded elements
+          colorTextSecondary: "#cfcfff", // Soft lavender for secondary text
+          colorTextPlaceholder: "#9999aa", // Muted gray-lavender for placeholders
+          colorIcon: "#00ffff", // Cyan for icons
+          colorIconHover: "#00cccc", // Slightly darker cyan on hover
+          // Customize borders and shadows for a glowing arcade feel
+          colorBorder: "#342f8f", // Purple for borders
+          colorShadow: "rgba(0, 255, 255, 0.5)", // Cyan glow shadow
+        },
+        rules: {
+          ".Input": {
+            border: "2px solid var(--accent-color)", // Bold borders for inputs
+            boxShadow: "0 0 10px var(--accent-color)", // Glow effect
+            color: "#ffffff", // Bright text for inputs
+          },
+          ".Input:focus": {
+            border: "2px solid var(--accent-color-dark)", // Change border on focus
+            boxShadow: "0 0 20px var(--accent-color-dark)", // Enhance glow on focus
+          },
+          ".Tab": {
+            border: "2px solid #342f8f", // Purple border for tabs
+            boxShadow: "0 0 5px rgba(52, 47, 143, 0.7)", // Subtle purple glow
+          },
+          ".Tab:hover": {
+            color: "#ffff00", // Yellow text on hover
+            boxShadow: "0 0 10px rgba(255, 255, 0, 0.8)", // Yellow glow on hover
+          },
+        },
+      };
       const elements = stripe.elements({ clientSecret, appearance });
       const paymentElement = elements.create("payment");
       paymentElement.mount("#stripe-elements");

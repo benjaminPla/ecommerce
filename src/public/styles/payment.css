@@ -1,6 +1,83 @@
-.stipe-form-container {
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--secondary-background-color);
+  font-family: "Silkscreen", monospace;
+  padding: 40px;
+}
+
+.payment-summary {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.payment-summary h1 {
+  color: var(--primary-text-color);
+  font-size: 2.4em;
+  margin-bottom: 10px;
+}
+
+.payment-summary .total-price {
+  color: var(--console-cyan);
+  font-size: 1.8em;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.payment-summary .total-price span {
+  color: var(--accent-color);
+  font-size: 2.2em;
+  text-shadow: 0 0 10px var(--accent-color-dark);
+}
+
+.payment-summary .description {
+  color: var(--secondary-text-color);
+  font-size: 1.2em;
+}
+
+.stripe-form-container {
   background-color: var(--tertiary-background-color);
-  border-radius: var(--border-radius);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--card-shadow);
   padding: 20px;
+  width: 90%;
+  max-width: 500px;
+}
+
+form h2 {
+  color: var(--primary-text-color);
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  background: var(--primary-background-color);
+  color: var(--primary-text-color);
+  font-size: 1em;
+}
+
+.pay-button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 20px;
+  background: var(--button-gradient);
+  border: none;
+  border-radius: var(--border-radius);
+  color: var(--primary-text-color);
+  font-size: 1.2em;
+  cursor: pointer;
+  box-shadow: var(--button-shadow);
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.pay-button:hover {
+  transform: scale(1.05);
+  background-color: var(--buy-button-hover-color);
 }

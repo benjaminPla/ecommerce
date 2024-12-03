@@ -12,6 +12,9 @@
   --secondary-background-color: var(--blue);
   --tertiary-background-color: var(--purple);
 
+  /* Text Font */
+  --primary-font-family: "Silkscreen", monospace;
+
   /* Text Colors */
   --primary-text-color: #ffffff; /* Bright white */
   --secondary-text-color: #cfcfff; /* Soft lavender */
@@ -73,11 +76,11 @@ body {
   /* background-image: var(--background-gradient); */
   display: flex;
   flex-direction: column;
+  font-family: var(--primary-font-family);
   gap: 20px;
   justify-content: space-evenly;
   min-height: 100vh;
   padding: 100px 5vw;
-  font-family: "Silkscreen", monospace;
 }
 
 a {
@@ -126,6 +129,33 @@ button:hover {
   transform: scale(1.05);
 }
 
+input[type="number"] {
+  background: var(--primary-background-color);
+  border: 2px solid var(--accent-color-dark);
+  border-radius: var(--border-radius-sm);
+  box-shadow: 0 0 10px var(--accent-color);
+  color: var(--primary-text-color);
+  font-family: var(--primary-font-family);
+  font-size: 1.2em;
+  padding: 10px;
+  text-align: center;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
+  width: 100%;
+}
+
+input[type="number"]:hover {
+  box-shadow: 0 0 15px var(--accent-color);
+  transform: scale(1.05);
+}
+
+input[type="number"]:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 20px var(--accent-color-dark);
+  outline: none;
+}
+
 .product-card {
   background-color: var(--secondary-background-color);
   border: 1px solid var(--border-color);
@@ -143,10 +173,9 @@ button:hover {
 }
 
 .product-image {
-  border-bottom: 1px solid var(--border-color);
   width: 100%;
   aspect-ratio: 16 / 9;
-  object-fit: cover;
+  object-fit: scale-down;
 }
 
 .add-button {

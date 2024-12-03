@@ -14,8 +14,6 @@
 .product-image {
   border-radius: 10px;
   height: 300px;
-  object-fit: cover;
-  width: 100%;
 }
 
 .product-price {
