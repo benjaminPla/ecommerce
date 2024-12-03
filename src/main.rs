@@ -45,7 +45,7 @@ async fn main() -> std::io::Result<()> {
             .route("/remove_from_cart/{id}", web::post().to(remove_from_cart))
             .route("/payment", web::get().to(payment))
             .route("/stripe-webhook", web::get().to(stripe_webhook))
-            .service(Files::new("/styles", "src/styles").show_files_listing())
+            .service(Files::new("/public", "src/public").show_files_listing())
             .default_service(web::route().to(not_found))
     })
     .bind("127.0.0.1:8080")?
